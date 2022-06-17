@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Edit Request</title>
+</head>
+<body>
+    
+    <h1> New Request</h1>
+    <form action="/requests/<%=r._id %>?_method=PUT" method="POST">
+        <label for="requester">Requester</label>
+<input type="text" name="requester" id="requester" placeholder="name" value="<%= r.requester %>">
+<label for="nature">Nature of Request</label>
+<input type="text" name="nature" id="nature" placeholder="nature" value="<%= r.nature %>">
+<label for="category">Category</label>
+<select name="category" id="category">
+<% for( let c of categories ) { %>
+    <option value="<%= c %>" <%= r.category === c ? 'selected' : '' %> ><%= c %> </option>
+<% } %>
+</select> 
+
+<button>Submit</button>
+    </form>
+</body>
+</html>

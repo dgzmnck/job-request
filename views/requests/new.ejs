@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>New Request</title>
+</head>
+<body>
+    
+    <h1> New Request</h1>
+    <form action="/requests" method="POST">
+        <label for="requester">Requester</label>
+<input type="text" name="requester" id="requester" placeholder="name">
+<label for="nature">Nature of Request</label>
+<input type="text" name="nature" id="nature" placeholder="nature">
+<label for="category">Category</label>
+<select name="category" id="category">
+    <option value="Hardware">Hardware</option>
+    <option value="Software">Software</option>
+    <option value="Network">Network</option>
+
+</select>
+
+<button>Submit</button>
+    </form>
+</body>
+</html>

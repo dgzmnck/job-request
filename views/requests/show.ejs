@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title><%= r.requester %> </title>
+</head>
+<body>
+    <h1> <%= r.requester %> </h1>
+    <ul>
+        <li> <%= r.nature %> </li>
+        <li> <%= moment(r.createdAt).format('LLL')  %> </li>
+        <li> <a href="/requests?category=<%= r.category %>"><%= r.category %></a></li>
+    </ul>
+
+    <a href="/requests">All request</a>
+    
+    <a href="/requests/<%=r._id %>/edit ">Edit request</a>
+
+    <form action="/requests/<%= r._id %>?_method=DELETE" method="POST">
+    <button>DELETE</button>
+</form>
+</body>
+</html>
