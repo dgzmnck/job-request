@@ -1,0 +1,237 @@
+/* angela delise
+template
+
+primary      #16a085
+primary-hover #fce4ec
+primary-dark #ec407a
+gray-100 #f9fbff
+gray-150 #f4f6fb
+gray-200 #eef1f6
+gray-300 #e1e5ee
+gray-400 #767b91
+gray-500 #4f546c
+gray-600 #2a324b
+gray-700 #161d34
+
+radius 0.2rem
+box-shadow: 0 0 10px #e1e5ee;
+
+*,
+*::before,
+*::after {
+box-sizing:border-box;
+margin:0;
+padding:0; */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+:root {
+    --primary:#16a085;
+    --primary-hover: ##1abc9c;
+    --white: #fff;
+    --black: #000;
+    --gray1:#ecf0f1;
+    --gray2: #bdc3c7;
+    --gray3:#95a5a6;
+    --gray4:#7f8c8d;
+ --box-shadow:0 0 10px #e1e5ee;
+ --border-radius: 0.2rem;
+  }
+  
+*,
+*::before,
+*::after {
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+p {
+    margin:0;
+    padding:0;
+}
+html {
+    padding:0;
+    margin:0;
+}
+body  {
+    padding:0;
+    margin:0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--gray1);
+    display: flex;
+flex-direction: column;
+color:white;
+width: 100vw;
+height:100vh;
+
+}
+.header {
+    background-color: var(--white);
+   
+    display: fixed;
+    top:0;
+left:0;
+    width: 100%;
+
+    box-shadow: var(--box-shadow);
+}
+
+.nav {
+display: flex;
+align-items: center;
+justify-content: space-between;
+width: 80%;
+margin: 0  auto;
+font-weight: bold;
+
+}
+a {
+    text-decoration: none;
+    color:black;
+}
+.btn {
+    padding: 0.2rem 1rem;
+    font-weight: bold;
+    font-family: inherit;
+    margin:0;
+background-color:#161d34 ;
+color:white;
+border :0;
+border-radius: var(--border-radius);
+cursor:pointer;
+}
+.btn:hover {
+  color:  #ec407a;
+ background-color: var(--gray1) ;
+
+}
+
+.menu {
+    display: none;
+}
+.navlinks {
+    display: flex;
+}
+.navitem{
+    list-style: none;
+    position:relative;
+    padding: 1rem;
+}
+
+.navitem a:hover {
+   color:#16a085;
+}
+
+.navitem:hover .navitemdrop,.navitem:focus .navitemdrop{
+    visibility: visible;
+    opacity: 1;
+}
+
+.navitemdrop{
+    list-style: none;
+position:absolute;
+left: 0.3rem;
+top: 3rem;
+background-color: white;
+box-shadow: 0 0 10px #e1e5ee;
+width: 10rem;
+padding: 0.5rem 0;
+
+opacity: 0;
+border-radius: 0.2rem;
+}
+
+.navitemdrop li , .navitemdrop li a{
+    padding: 0.2rem 0.8rem;
+ }
+
+.navitemdrop li:hover a{
+    border-radius: 0.2rem;
+background-color: #16a085;
+color:white;
+}
+
+.main {
+
+    width: 100%;
+}
+
+.footer {
+    margin-top: auto;
+    padding:0;
+    text-align: center;
+    background-color: var(--black);
+    color:var(--white);
+    height: 10%;
+}
+
+
+
+
+  @media screen and (max-width: 520px) {
+
+    body {
+      background-color: olive;
+    }
+
+ header {
+    padding: 1rem;
+
+ }
+ .logo {
+    float:left;
+    width: 100%;
+ }
+ .nav {
+    width: 100%;
+ 
+flex-direction: column;
+ }
+
+ .menu  {
+    position: absolute;
+right:1rem;
+top:1rem;
+display:  inline-block;
+ }
+   
+    .navlinks {
+        width: 100%;
+        text-align: center;
+        letter-spacing: 2px;
+        display: none;
+        
+flex-direction: column;
+        }
+        .navlinks.show {
+            display:block
+        }
+
+    .navitem {
+    padding: 0;
+    position:static;
+
+    }
+
+ .navitemdrop  {
+      display: none;
+      width: 100%;
+text-align: center;
+border: none;
+visibility: none;
+opacity: 0;
+     }
+
+    .navitem:hover .navitemdrop,.navitem:focus .navitemdrop{
+        display: block;
+        visibility: visible;
+        position: static;
+        opacity: 1;
+ 
+    }
+    
+
+
+
+  }

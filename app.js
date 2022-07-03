@@ -40,6 +40,7 @@ app.engine('ejs',ejsMate) //ASSIGN EJS MATE AS ENGINE NOT THE DEFAULT
 app.set('view engine','ejs');
 //method override
 app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname,'public')));
 
 app.use((req, res, next)=>{
     res.locals.moment = moment;
@@ -164,6 +165,14 @@ app.get('/requests/:id',async (req,res)=> {
 console.log(r);
    res.render('requests/show',{r})
 })
+
+
+app.get('/',async (req,res)=> {
+
+
+   res.render('home')
+})
+
 
 
 
