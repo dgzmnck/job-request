@@ -1,18 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>users</title>
-</head>
-<body>
-    
-    <h1>All Users</h1>
-    <ul>
-        <% for( let user of users) {%>
-        <li> <%= user.first %> <%= user.last %></li>
-        <% } %>  
-    </ul>
-</body>
-</html>
+<%- layout('layouts/boilerplate') %>
+
+<link rel="stylesheet" href="/css/table.css" />
+<h2>
+  <h1>All Users</h1>
+</h2>
+<div class="table-wrapper">
+  <table class="fl-table">
+    <thead>
+      <tr>
+        <th>First name</th>
+        <th>Lastname</th>
+        <th>Header 3</th>
+        <th>Header 4</th>
+        <th>Header 5</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for( let user of users) {%>
+      <tr>
+        <td><%= user.first %></td>
+        <td><%= user.last %></td>
+        <td><%= user.first %></td>
+        <td><%= user.last %></td>
+        <td><%= user.last %></td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

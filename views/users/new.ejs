@@ -1,38 +1,44 @@
-<% layout('layouts/boilerplate') %> 
-    
-<div class="row">
-    <div class="col-3 offset-3">
-        <h2 >CREATE ACCOUNT</h2>
-        <form action="/users/new" method="POST">
-            <div class="form-group mb-3">
-            <label for="username">Username</label >
-            <input id="username" class="form-control" type="text" name="username" placeholder="Username">
-        </div>
-    
-        <div class="form-group mb-3">
-            <label   for="first">First name</label>
-            <input id="first" class="form-control" type="text" name="first" placeholder="First name">
-        </div>
-      
-    
-        <div class="form-group mb-3">
-            <label for="last">Lastname</label>
-            <input id="last" class="form-control" type="text" name="last" placeholder="Last name">
-        </div>
-    
-    
-        <div class="form-group mb-3">
-            <label for="office">Select office</label>
-            <select class="form-control" name="office" id="office">
-                <% for(let office of offices) { %>
-                <option value="<%= office._id %>"> <%= office.name %> </option>
-                <% } %>  
-        
-            </select>
-        </div>
-        <div class="form-group mb-3">
-        <button class="btn btn-primary form-control">Create Account</button>
+<% layout('layouts/boilerplate') %>
+
+<link rel="stylesheet" href="/css/form.css" />
+
+<div class="container">
+  <h2 class="form-title">CREATE ACCOUNT</h2>
+  <form action="/users/new" method="POST">
+    <div class="form-control">
+      <select name="office" id="office">
+        <option value="" disabled selected hidden>Choose office ..</option>
+        <% for(let office of offices) { %>
+        <option value="<%= office._id %>"><%= office.name %></option>
+        <% } %>
+      </select>
+      <label for="office" class="form-label">Select office</label>
     </div>
-        </form>
-        
+
+    <div class="form-control">
+      <input type="text" name="last" required />
+      <label>First name</label>
+    </div>
+
+    <div class="form-control">
+      <input type="text" name="first" required />
+      <label>Last name</label>
+    </div>
+
+    <div class="form-control">
+      <input type="text" name="username" required />
+      <label>Username</label>
+    </div>
+
+    <div class="form-control">
+      <input type="password" name="password" required />
+      <label>Password</label>
+    </div>
+
+    <div class="form-group mb-3">
+      <button class="frmbtn btn-primary form-control">Create Account</button>
+    </div>
+  </form>
 </div>
+
+<script src="/js/form.js"></script>

@@ -1,18 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>users</title>
-</head>
-<body>
-    
-    <h1>All offices</h1>
-    <ul>
-        <% for( let office of offices) {%>
-        <li> <%= office.code %> <%= office.name %></li>
-        <% } %>  
-    </ul>
-</body>
-</html>
+<%- layout('layouts/boilerplate') %>
+
+<link rel="stylesheet" href="/css/table.css" />
+<h2>
+  <h1>All Users</h1>
+</h2>
+<div class="table-wrapper">
+  <table class="fl-table">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for( let office of offices) {%>
+      <tr>
+        <td><%= office.code %></td>
+        <td><%= office.name %></td>
+        <td>
+          <button class="btn">Edit</button> <button class="btn">Delete</button>
+        </td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
