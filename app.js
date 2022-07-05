@@ -7,17 +7,17 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const ejsMate = require("ejs-mate");
-//REQUIRE MONGOOSE = npm i mongoose
 const mongoose = require("mongoose");
-//METHOD OVERRIDE = npm i method-override
-const methodOverride = require("method-override");
-
-const catchAsync = require("./utils/catchAsync");
+const session = require("express-session"); // npm i express-session
+const methodOverride = require("method-override"); //METHOD OVERRIDE = npm i method-override
+const AppError = require("./utils/AppError"); // self made error handler
+const catchAsync = require("./utils/catchAsync"); //own middleware for catching errors
+const Joi = require("joi");
+const MongoStore = require("connect-mongo");
+const mongoSanitize = require("express-mongo-sanitize");
 //categories
 const categories = ["Hardware", "Software", "Network"];
-
-const moment = require("moment");
-
+// const moment = require("moment");
 const flash = require("connect-flash"); // npm i connect-flash   //493
 const requestRoutes = require("./routes/requests");
 const officeRoutes = require("./routes/offices");
@@ -26,11 +26,9 @@ const userRoutes = require("./routes/users");
 const Request = require("./models/request");
 const User = require("./models/user");
 const Office = require("./models/office");
-const e = require("method-override");
 
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
-
 //MONGO CONNECTION TO DATABASE
 mongoose
   .connect("mongodb://localhost:27017/misRequest", {
@@ -45,31 +43,42 @@ mongoose
     console.log(err);
   });
 
-//EXPRESS INIT
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true })); // form to req.body
 app.use(express.json());
-app.set("views", path.join(__dirname, "views"));
-
+app.set("views", path.join(__dirname, "views")); //use views folder
 app.use(express.static(path.join(__dirname, "public"))); // make public folder accessible //491
-
 app.engine("ejs", ejsMate); //ASSIGN EJS MATE AS ENGINE NOT THE DEFAULT
-app.set("view engine", "ejs");
-//method override
-app.use(methodOverride("_method"));
+app.set("view engine", "ejs"); // set view engine
+app.use(methodOverride("_method")); //used for overriding post method PUT PATCH DELETE
 
-app.use((req, res, next) => {
-  res.locals.moment = moment;
-  next();
-});
+const sessionConfig = {
+  // store: store,
+  name: "shesh",
+  secret: "secretfromenv",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    secure: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
+};
 
-app.use(flash()); //493
-app.use(passport.initialize());
+app.use(session(sessionConfig)); //using express-session
+app.use(flash()); // using connect-flash
+
+app.use(passport.initialize()); //using passport - used for login
 app.use(passport.session()); // invoke afterr express session
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.use(new LocalStrategy(User.authenticate())); // passport using localstrategy
+passport.serializeUser(User.serializeUser()); //needed for login or registering
+passport.deserializeUser(User.deserializeUser()); //needed for login or registering
 
 app.use((req, res, next) => {
+  //middleware - runs every request
+
+  console.log("mid user ", req.user);
+  console.log("mid", req.session);
   res.locals.returnUrl = req.session.originalUrl;
   res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
@@ -77,27 +86,37 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/requests", requestRoutes);
-app.use("/offices", officeRoutes);
-app.use("/users", userRoutes);
+app.use("/requests", requestRoutes); // add the request routes
+app.use("/offices", officeRoutes); //add the office routes
+app.use("/", userRoutes); //add the user routes
 
-//ROUTES - WILL BE MOVED TO SEPERATE FOLDER
-//ACCOUNT
-app.get("/account/new", async (req, res) => {
-  const offices = await Office.find({});
-  res.render("account/create", { offices });
+const handleValidationErr = (err) => {
+  return new AppError(`Validation failed ...${err.message}`, 400);
+};
+
+const handleCastErr = (err) => {
+  return new AppError(`Validation failed ...${err.message}`, 400);
+};
+
+app.use((err, req, res, next) => {
+  if (err.name === "ValidationError") err = handleValidationErr(err);
+  if (err.name === "CastError") {
+    err.status = 404;
+    err.message = "page not found";
+  }
+  next(err);
 });
 
-app.use("/dashboard", (req, res) => {
-  res.render("admin/dashboard");
+app.all("*", (req, res, next) => {
+  next(new AppError("Page not found", 404));
 });
 
-app.get(
-  "/",
-  catchAsync(async (req, res, next) => {
-    res.render("home");
-  })
-);
+app.use((err, req, res, next) => {
+  const { status = 500 } = err;
+  if (!err.message) err.message = "Something went wrong";
+  res.status(status).render("error", { err });
+});
+
 //USERS =================================
 
 // STARTING EXPRESS - MUST BE AT THE VERY END

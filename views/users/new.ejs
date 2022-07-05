@@ -4,10 +4,10 @@
 
 <div class="container">
   <h2 class="form-title">CREATE ACCOUNT</h2>
-  <form action="/users/new" method="POST">
+  <form action="/register" method="POST">
     <div class="form-control">
-      <select name="office" id="office">
-        <option value="" disabled selected hidden>Choose office ..</option>
+      <select name="office" id="office" required>
+        <option value=""></option>
         <% for(let office of offices) { %>
         <option value="<%= office._id %>"><%= office.name %></option>
         <% } %>
@@ -17,12 +17,12 @@
 
     <div class="form-control">
       <input type="text" name="last" required />
-      <label>First name</label>
+      <label>Last name</label>
     </div>
 
     <div class="form-control">
       <input type="text" name="first" required />
-      <label>Last name</label>
+      <label>First name</label>
     </div>
 
     <div class="form-control">
@@ -35,9 +35,7 @@
       <label>Password</label>
     </div>
 
-    <div class="form-group mb-3">
-      <button class="frmbtn btn-primary form-control">Create Account</button>
-    </div>
+    <button class="formbtn">Create Account</button>
   </form>
 </div>
 

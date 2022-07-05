@@ -1,0 +1,12 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="alert">
+  <h3 class="red">Oops..</h3>
+  <p class="text"><%= err.status %> <%= err.message %></p>
+  <br />
+  <hr />
+  <br />
+  <% if (process.env.NODE_ENV !== "production") { %>
+  <p class="text"><%= err.stack %></p>
+  <% } %>
+</div>

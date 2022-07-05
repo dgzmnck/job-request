@@ -1,7 +1,16 @@
+
+
+
 .container {
-    background-color: rgba(0, 0, 0, 0.4);
+  font-family: inherit;
+    background-color:#fff;
     padding: 20px 40px;
-    border-radius: 5px;
+    border-radius: 20px;
+    width: 400px;
+    height: 600px;
+    box-shadow: var(box-shadow);
+    color: #000;
+    margin:  50px auto;
   }
   
   .container h1 {
@@ -11,15 +20,19 @@
   
   .container a {
     text-decoration: none;
-    color: lightblue;
+
   }
   
   .formbtn {
+    font-weight: bold;
+    color: var(--white);
+    background-color: var(--primary);
     cursor: pointer;
     display: inline-block;
     width: 100%;
-    background: lightblue;
-    padding: 15px;
+
+    margin-top: 1rem;
+    padding: 15px 30px;
     font-family: inherit;
     font-size: 16px;
     border: 0;
@@ -28,6 +41,12 @@
   
   .formbtn:focus {
     outline: 0;
+
+  }
+  .formbtn:hover {
+    outline: 0;
+    background-color: var(--primary-hover);
+
   }
   
   .formbtn:active {
@@ -40,44 +59,65 @@
   
   .form-control {
     position: relative;
-    margin: 20px 0 40px;
-    width: 300px;
+    margin: 30px 0 auto;
+    width: 100%;
   }
   
-  .form-control input {
-    background-color: transparent;
-    border: 0;
+  .form-control input, .form-control select {
+    font-family: inherit;
+    background-color: var(--gray1);
+   border:0;
     border-bottom: 2px #fff solid;
     display: block;
     width: 100%;
-    padding: 15px 0;
+    padding: 1rem 1rem;
     font-size: 18px;
-    color: #fff;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+  
   }
   
   .form-control input:focus,
   .form-control input:valid {
     outline: 0;
     border-bottom-color: lightblue;
+    border-radius: var(border-radius);
   }
+  .form-control select:focus,
+  .form-control select:valid {
+    outline: 0;
+    border-bottom-color: lightblue;
+    border-radius: var(border-radius);
+  }
+
   
   .form-control label {
     position: absolute;
-    top: 15px;
-    left: 0;
+    top: 10px;
+    left: 10px;
     pointer-events: none;
+
   }
   
   .form-control label span {
     display: inline-block;
-    font-size: 18px;
+    text-shadow: 0 0 2px rgba(0,0,0,0.2);
+    font-size: 0.8rem;
+    font-weight: bold;
     min-width: 5px;
     transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
   
   .form-control input:focus + label span,
   .form-control input:valid + label span {
-    color: lightblue;
+
     transform: translateY(-30px);
   }
   
+    
+  .form-control select:focus + label span,
+  .form-control select:valid + label span {
+
+    transform: translateY(-30px);
+  }

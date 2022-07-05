@@ -7,11 +7,15 @@ router.get("/", async (req, res) => {
     const { category } = req.query;
     console.log(category);
     if (category) {
-      const requests = await Request.find({}).sort({ createdAt: 1 });
-      res.render("requests/index", { requests, category });
+      const requests = await Request.find({})
+        .sort({ createdAt: 1 })
+        .populate("requester");
+      res.render("requests", { requests, category });
     } else {
-      const requests = await Request.find({}).sort({ createdAt: 1 });
-      res.render("requests/index", { requests, category: "All" });
+      const requests = await Request.find({})
+        .sort({ createdAt: 1 })
+        .populate("requester");
+      res.render("requests", { requests, category: "All" });
     }
   } catch (e) {
     console.log(e);
