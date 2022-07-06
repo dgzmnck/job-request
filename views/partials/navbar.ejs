@@ -29,8 +29,19 @@
           <li><a href="">Ernani</a></li>
         </ul>
       </li>
-      <a class="abtn" href="/new">REGISTER</a>
-      <a class="abtn" href="/login">LOGIN</a>
     </ul>
+
+    <div class="navside">
+      <% if(currentUser) { %>
+
+      <!-- <img src="" alt="" /> -->
+      <a class="abtn" href="/profile"><%= currentUser.first %></a>
+
+      <a class="abtn" href="/logout">LOGOUT</a>
+      <% } else { %>
+      <a class="abtn" href="/register">REGISTER</a>
+      <a class="abtn" href="/login">LOGIN</a>
+      <% } %>
+    </div>
   </nav>
 </header>

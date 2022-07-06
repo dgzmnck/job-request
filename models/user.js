@@ -13,6 +13,12 @@ const UserSchema = new Schema(
       required: true,
     },
     office: { type: mongoose.Schema.Types.ObjectId, ref: "Office" },
+    picture: {
+      type: String,
+    },
+    position: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

@@ -28,6 +28,8 @@ router.get("/new", (req, res) => {
 
 router.post("/", async (req, res) => {
   const newR = new Request(req.body);
+  newR.status = "pending";
+  newR.requester = req.user._id;
   await newR.save();
   res.redirect("/requests");
 });

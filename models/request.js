@@ -20,7 +20,14 @@ const requestSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Pending", "Posted", "Denied", "In progress", "Completed"],
+      enum: [
+        "awaiting-approval",
+        "pending",
+        "posted",
+        "denied",
+        "in-progress",
+        "completed",
+      ],
     },
     remarks: {
       type: String,

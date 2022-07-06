@@ -29,6 +29,7 @@ const Office = require("./models/office");
 
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+
 //MONGO CONNECTION TO DATABASE
 mongoose
   .connect("mongodb://localhost:27017/misRequest", {
@@ -59,7 +60,7 @@ const sessionConfig = {
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
-    secure: true,
+    // secure: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
@@ -71,8 +72,8 @@ app.use(flash()); // using connect-flash
 app.use(passport.initialize()); //using passport - used for login
 app.use(passport.session()); // invoke afterr express session
 passport.use(new LocalStrategy(User.authenticate())); // passport using localstrategy
-passport.serializeUser(User.serializeUser()); //needed for login or registering
-passport.deserializeUser(User.deserializeUser()); //needed for login or registering
+passport.serializeUser(User.serializeUser()); // store user into the session
+passport.deserializeUser(User.deserializeUser()); // user out of the session
 
 app.use((req, res, next) => {
   //middleware - runs every request

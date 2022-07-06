@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
+const Request = require("../models/request");
 const Office = require("../models/office");
 const passport = require("passport");
 const catchAsync = require("../utils/catchAsync"); //own middleware for catching errors
+const { isLoggedIn } = require("../middlewares");
 
 router.get("/", async (req, res) => {
   res.render("");
@@ -16,9 +18,9 @@ router.get("/users", async (req, res) => {
   res.render("users/index", { users });
 });
 
-router.get("/new", async (req, res) => {
+router.get("/register", async (req, res) => {
   const offices = await Office.find({});
-  res.render("users/new", { offices });
+  res.render("users/register", { offices });
 });
 
 router.get("/login", (req, res) => {
@@ -33,12 +35,34 @@ router.post(
   }),
   async (req, res) => {
     console.log(req.user);
-    console.log(req.flash.success);
     req.flash("success", "you are logged in now");
-    console.log(req.flash.success);
     res.redirect("/");
   }
 );
+
+router.get("/profile", isLoggedIn, async (req, res) => {
+  // const user = await User.findById(req.user._id);
+  // res.render("users/profile", { user });.
+
+  const requests = await Request.find({ requester: req.user._id });
+  const user = await User.findById(req.user._id);
+  console.log(requests);
+  res.render("users/profile", { user, requests });
+});
+
+router.get("/profile/requests/:status", isLoggedIn, async (req, res) => {
+  const { status } = req.params;
+  const user = await User.findById(req.user._id);
+  if (status) {
+    if (status === "all") {
+      const requests = await Request.find({ requester: req.user._id });
+      res.render("users/profile", { user, requests });
+    } else {
+      const requests = await Request.find({ requester: req.user._id, status });
+      res.render("users/profile", { user, requests });
+    }
+  }
+});
 
 router.get("/logout", (req, res) => {
   req.logout(req.user, (err) => {
@@ -58,12 +82,12 @@ router.post(
 
       req.login(newUser, (err) => {
         if (err) return next(err);
-        req.flash("success", "Registered and loggedin");
+        req.flash("error", "Registered and loggedin");
         res.redirect("/users");
       });
     } catch (e) {
       req.flash("error", e.message);
-      res.redirect("/users");
+      res.redirect("/register");
     }
   })
 );

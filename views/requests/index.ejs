@@ -12,6 +12,7 @@
         <th>Requester</th>
         <th>Category</th>
         <th>Nature of Request</th>
+        <th>Status</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -22,8 +23,15 @@
         <td><%= r.requester.first %> <%= r.requester.last %></td>
         <td><%= r.category %></td>
         <td><%= r.nature %></td>
+        <% if (r.status) { %>
+        <td><%= r.status %></td>
+        <% } %>
+
         <td>
-          <button class="btn">Approve</button> <button class="btn">Deny</button>
+          <div>
+            <button class="btn">Approve</button>
+            <button class="btn">Deny</button>
+          </div>
         </td>
       </tr>
       <% } %>

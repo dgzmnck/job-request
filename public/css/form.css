@@ -22,6 +22,9 @@
     text-decoration: none;
 
   }
+  .container.wide {
+    width: 800px;
+  }
   
   .formbtn {
     font-weight: bold;
@@ -63,7 +66,7 @@
     width: 100%;
   }
   
-  .form-control input, .form-control select {
+  .form-control input, .form-control select ,.form-control textarea {
     font-family: inherit;
     background-color: var(--gray1);
    border:0;
