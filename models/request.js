@@ -32,6 +32,9 @@ const requestSchema = new mongoose.Schema(
     remarks: {
       type: String,
     },
+    office: {
+      type: String,
+    },
 
     requester: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },

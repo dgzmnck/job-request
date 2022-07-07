@@ -1,5 +1,7 @@
 <%- layout('layouts/boilerplate') %>
 
+<link rel="stylesheet" href="/css/table.css" />
+
 <div class="profile-container">
   <div class="side-card">
     <div class="profile">
@@ -9,6 +11,7 @@
       <div class="profile-name">
         <h5><%= currentUser.last %></h5>
         <h5><%= currentUser.first %></h5>
+        <h5><%= %></h5>
       </div>
 
       <% if (currentUser.position) { %>
@@ -51,40 +54,87 @@
       <!-- <a class="abtn" href="/requests/?id=<%= currentUser._id  %> "
         >My Requests</a
       > -->
-      <a class="atoggle" id="my_request" href="/profile/requests/all"
+
+      <a
+        class="atoggle <%= (status === 'all') ? 'active' : ''%>"
+        id="all"
+        href="/profile/requests/all"
         >My requests</a
       >
       <a
-        class="atoggle active"
+        class="atoggle <%= (status === 'awaiting-approval') ? 'active' : ''%>"
         id="my_request"
         href="/profile/requests/awaiting-approval"
         >Awaiting approval</a
       >
-      <a class="atoggle" id="my_request" href="/profile/requests/pending"
+      <a
+        class="atoggle <%= (status === 'pending') ? 'active' : ''%>"
+        id="pending"
+        href="/profile/requests/pending"
         >Pending</a
       >
-      <a class="atoggle" id="my_request" href="/profile/requests/posted"
+      <a
+        class="atoggle <%= (status === 'posted') ? 'active' : ''%>"
+        id="posted"
+        href="/profile/requests/posted"
         >Posted</a
       >
-      <a class="atoggle" id="my_request" href="/profile/requests/denied"
+      <a
+        class="atoggle <%= (status === 'denied') ? 'active' : ''%>"
+        id="denied"
+        href="/profile/requests/denied"
         >Denied</a
       >
-      <a class="atoggle" id="my_request" href="/profile/requests/in-progress"
+      <a
+        class="atoggle <%= (status === 'in-progress') ? 'active' : ''%>"
+        id="inprogress"
+        href="/profile/requests/in-progress"
         >In progress</a
       >
-      <a class="atoggle" id="my_request" href="/profile/requests/completed"
+      <a
+        class="atoggle <%= (status === 'completed') ? 'active' : ''%>"
+        id="completed"
+        href="/profile/requests/completed"
         >Completed</a
       >
     </div>
 
     <div class="content-main" id="content_main">
-      <% if (requests.length ) { %>
-      <ul>
-        <% for( let req of requests ) { %>
-        <li><%= req.nature %></li>
-        <% } %>
-      </ul>
-      <% } %>
+      <table class="fl-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Office</th>
+            <th>Category</th>
+            <th>Nature of Request</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (requests.length ) { %> <% for( let req of requests ) { %> <%
+          for (let r of requests) {%>
+          <tr>
+            <td><%= r.createdAt.toISOString().split('T')[0] %></td>
+            <td><%= r.createdAt.toLocaleTimeString()%></td>
+            <td><%= r.office %></td>
+            <td><%= r.category %></td>
+            <td><%= r.nature %></td>
+            <% if (r.status) { %>
+            <td><%= r.status %></td>
+            <% } %>
+
+            <td>
+              <div>
+                <button class="btn">details</button>
+              </div>
+            </td>
+
+            <% } %> <% } %> <% } %>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

@@ -31,12 +31,12 @@ router.post(
   "/login",
   passport.authenticate("local", {
     failureFlash: true,
-    failureRedirect: "/users/login",
+    failureRedirect: "/login",
   }),
   async (req, res) => {
     console.log(req.user);
     req.flash("success", "you are logged in now");
-    res.redirect("/");
+    res.redirect("/profile");
   }
 );
 
@@ -45,7 +45,7 @@ router.get("/profile", isLoggedIn, async (req, res) => {
   // res.render("users/profile", { user });.
 
   const requests = await Request.find({ requester: req.user._id });
-  const user = await User.findById(req.user._id);
+  const user = await User.findById(req.user._id).populate("office");
   console.log(requests);
   res.render("users/profile", { user, requests });
 });
@@ -53,13 +53,31 @@ router.get("/profile", isLoggedIn, async (req, res) => {
 router.get("/profile/requests/:status", isLoggedIn, async (req, res) => {
   const { status } = req.params;
   const user = await User.findById(req.user._id);
+
   if (status) {
     if (status === "all") {
-      const requests = await Request.find({ requester: req.user._id });
-      res.render("users/profile", { user, requests });
+      const requests = await Request.find({ requester: req.user._id }).populate(
+        {
+          path: "requester",
+          populate: {
+            path: "office",
+          },
+        }
+      );
+      console.log("loading", requests.requester);
+      return res.render("users/profile", { user, requests, status });
     } else {
-      const requests = await Request.find({ requester: req.user._id, status });
-      res.render("users/profile", { user, requests });
+      const requests = await Request.find({
+        requester: req.user._id,
+        status,
+      }).populate({
+        path: "requester",
+        populate: {
+          path: "office",
+        },
+      });
+      console.log("loading", requests.requester);
+      return res.render("users/profile", { user, requests, status });
     }
   }
 });

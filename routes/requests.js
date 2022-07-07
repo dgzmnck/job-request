@@ -1,21 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const Request = require("../models/request");
+const User = require("../models/user");
 
 router.get("/", async (req, res) => {
   try {
-    const { category } = req.query;
-    console.log(category);
     if (category) {
       const requests = await Request.find({})
         .sort({ createdAt: 1 })
         .populate("requester");
-      res.render("requests", { requests, category });
+      res.render("requests", { requests });
     } else {
       const requests = await Request.find({})
         .sort({ createdAt: 1 })
         .populate("requester");
-      res.render("requests", { requests, category: "All" });
+      res.render("requests", { requests });
     }
   } catch (e) {
     console.log(e);
@@ -27,11 +26,16 @@ router.get("/new", (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  const user = await User.findById(req.user._id).populate("office");
   const newR = new Request(req.body);
   newR.status = "pending";
-  newR.requester = req.user._id;
+  newR.requester = req.user;
+  console.log(user);
+  newR.office = user.office.name;
+
   await newR.save();
-  res.redirect("/requests");
+  req.flash("success", "Successfully created a request");
+  res.redirect("/profile");
 });
 
 router.get("/:id/edit", async (req, res) => {

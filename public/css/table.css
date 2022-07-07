@@ -8,6 +8,7 @@
 }
 
 .fl-table {
+    margin-top: 1rem;
     border-radius: var(--border-radius);
     font-size: 1rem;
     font-weight: normal;
@@ -17,11 +18,13 @@
     max-width: 100%;
     white-space: nowrap;
     background-color: white;
+  
 }
 
 .fl-table td, .fl-table th {
     text-align: left;
     padding: 8px;
+
 }
 
 .fl-table td {
@@ -30,8 +33,10 @@
 }
 
 .fl-table thead th {
+padding-left: 10px;
     color: #ffffff;
     background: #4FC3A1;
+
 }
 
 /* 
