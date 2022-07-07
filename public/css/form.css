@@ -1,5 +1,7 @@
 
-
+* {
+  box-sizing: border-box;
+}
 
 .container {
   font-family: inherit;
@@ -66,6 +68,8 @@
     position: relative;
     margin: 1.5rem 0 auto;
     width: 100%;
+
+
   }
   
   .form-control input, .form-control select ,.form-control textarea {
@@ -74,12 +78,13 @@
    border:0;
     border-bottom: 2px #fff solid;
     display: block;
-    width: 100%;
+
     padding: 1rem 1rem;
-    font-size: 18px;
+    /* font-size: 18px; */
     border-radius: 10px;
     font-size: 0.8rem;
     font-weight: bold;
+    width: 100%;
   
   }
   

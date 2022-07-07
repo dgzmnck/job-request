@@ -47,12 +47,12 @@ router.get("/profile", isLoggedIn, async (req, res) => {
   const requests = await Request.find({ requester: req.user._id });
   const user = await User.findById(req.user._id).populate("office");
   console.log(requests);
-  res.render("users/profile", { user, requests });
+  res.render("users/profile", { user, requests, status: "all" });
 });
 
 router.get("/profile/requests/:status", isLoggedIn, async (req, res) => {
   const { status } = req.params;
-  const user = await User.findById(req.user._id);
+  const user = await User.findById(req.user._id).populate("office");
 
   if (status) {
     if (status === "all") {

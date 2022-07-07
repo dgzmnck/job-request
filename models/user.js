@@ -19,6 +19,8 @@ const UserSchema = new Schema(
     position: {
       type: String,
     },
+    can_serve: Boolean,
+    is_head: Boolean,
   },
   { timestamps: true }
 );

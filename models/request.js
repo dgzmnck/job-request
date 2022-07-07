@@ -27,6 +27,7 @@ const requestSchema = new mongoose.Schema(
         "denied",
         "in-progress",
         "completed",
+        "accepted",
       ],
     },
     remarks: {
@@ -37,6 +38,7 @@ const requestSchema = new mongoose.Schema(
     },
 
     requester: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    personnel: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );

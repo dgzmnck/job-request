@@ -4,11 +4,12 @@
 
 .table-wrapper{
     margin: 10px 70px 70px;
-    box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+    /* box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 ); */
+    background-color: transparent;
 }
 
 .fl-table {
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
     border-radius: var(--border-radius);
     font-size: 1rem;
     font-weight: normal;
@@ -17,13 +18,18 @@
     width: 100%;
     max-width: 100%;
     white-space: nowrap;
-    background-color: white;
+    background-color: transparent;
+  box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 ); 
   
 }
+
+
+
 
 .fl-table td, .fl-table th {
     text-align: left;
     padding: 8px;
+
 
 }
 
@@ -45,9 +51,32 @@ padding-left: 10px;
     background: #324960;
 } */
 
+.fl-table tr {
+    background: #fff;
+}
+
 .fl-table tr:nth-child(even) {
     background: #F8F8F8;
 }
+
+
+/* added by me to add border radius */ 
+.fl-table thead tr{
+
+    background-color: transparent;
+}
+
+.fl-table thead  tr th:first-child{
+    border-radius: 10px 0 0 0 ;
+    overflow: hidden;
+}
+
+.fl-table thead  tr th:last-child{
+    border-radius: 0 10px 0 0 ;
+    overflow: hidden;
+}
+
+
 
 /* Responsive */
 
