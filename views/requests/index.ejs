@@ -9,31 +9,35 @@
     <thead>
       <tr>
         <th>Date</th>
+        <th>Time</th>
+        <th>Office</th>
         <th>Requester</th>
         <th>Category</th>
         <th>Nature of Request</th>
         <th>Status</th>
-        <th>Action</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
-      <% for (let r of requests) {%>
+      <% for( let r of requests ) { %>
+
       <tr>
-        <td><%= r.createdAt %></td>
+        <td><%= r.createdAt.toISOString().split('T')[0] %></td>
+        <td><%= r.createdAt.toLocaleTimeString()%></td>
+
+        <td><%= r.office %></td>
         <td><%= r.requester.first %> <%= r.requester.last %></td>
         <td><%= r.category %></td>
         <td><%= r.nature %></td>
-        <% if (r.status) { %>
         <td><%= r.status %></td>
-        <% } %>
 
         <td>
           <div>
-            <button class="btn">Approve</button>
-            <button class="btn">Deny</button>
+            <button class="btn">details</button>
           </div>
         </td>
       </tr>
+
       <% } %>
     </tbody>
   </table>

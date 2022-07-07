@@ -1,12 +1,12 @@
 <%- layout('layouts/boilerplate') %>
 
 <link rel="stylesheet" href="/css/table.css" />
-<div class="success">s<%= success %></div>
-<div class="error">e<%= error %></div>
-<div class="currentuser">c<%= currentUser %></div>
 
 <div class="table-wrapper">
-  <h1>All Users</h1>
+  <div class="divflex aic jcsb">
+    <h1>All Users</h1>
+    <a href="/users/new" class="btn">New User</a>
+  </div>
   <table class="fl-table">
     <thead>
       <tr>

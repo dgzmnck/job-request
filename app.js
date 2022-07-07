@@ -77,9 +77,6 @@ passport.deserializeUser(User.deserializeUser()); // user out of the session
 
 app.use((req, res, next) => {
   //middleware - runs every request
-
-  console.log("mid user ", req.user);
-  console.log("mid", req.session);
   res.locals.returnUrl = req.session.originalUrl;
   res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
