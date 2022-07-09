@@ -7,6 +7,14 @@ const passport = require("passport");
 const catchAsync = require("../utils/catchAsync"); //own middleware for catching errors
 const { isLoggedIn } = require("../middlewares");
 
+const { cloudinary } = require("../cloudinary");
+
+const multer = require("multer");
+const { storage } = require("../cloudinary");
+const upload = multer({ storage });
+
+
+
 router.get("/", async (req, res) => {
   res.render("");
 });
@@ -23,6 +31,31 @@ router.get("/register", async (req, res) => {
   res.render("users/register", { offices });
 });
 
+router.post(
+  "/register",
+  catchAsync(async (req, res) => {
+    try {
+      const { first, last, office, email, password, username } = req.body;
+      const user = new User({ first, last, username, office,email });
+      
+      user.picture = {
+        url:'/img/default_picture.jpg',
+        filename:'/img/default_picture.jpg',
+      }
+      const newUser = await User.register(user, password);
+
+      req.login(newUser, (err) => {
+        if (err) return next(err);
+        req.flash("error", "Registered and loggedin");
+        res.redirect("/users");
+      });
+    } catch (e) {
+      req.flash("error", e.message);
+      res.redirect("/register");
+    }
+  })
+);
+
 router.get("/login", (req, res) => {
   res.render("users/login");
 });
@@ -34,11 +67,24 @@ router.post(
     failureRedirect: "/login",
   }),
   async (req, res) => {
-    console.log(req.user);
+    console.log(req.user);  
     req.flash("success", "you are logged in now");
     res.redirect("/profile");
   }
 );
+
+
+router.post("/profile/photo/:userId",upload.single('uploaded_file'),async(req,res) => {
+const {userId} = req.params;
+  const user= await User.findById(userId);
+  user.picture= {url:req.file.path, filename: req.file.filename} ;
+  await user.save()
+  console.log(req.file)
+  // upload.single("image")
+  req.flash('success','profile updated')
+res.redirect("/profile");
+})
+
 
 router.get("/profile", isLoggedIn, async (req, res) => {
   // const user = await User.findById(req.user._id);
@@ -90,25 +136,9 @@ router.get("/logout", (req, res) => {
   });
 });
 
-router.post(
-  "/register",
-  catchAsync(async (req, res) => {
-    try {
-      const { first, last, office, password, username } = req.body;
-      const user = new User({ first, last, username, office });
-      const newUser = await User.register(user, password);
-
-      req.login(newUser, (err) => {
-        if (err) return next(err);
-        req.flash("error", "Registered and loggedin");
-        res.redirect("/users");
-      });
-    } catch (e) {
-      req.flash("error", e.message);
-      res.redirect("/register");
-    }
-  })
-);
+// router.get("/new", async (req, res) => {
+//   res.render("/new");
+// });
 
 router.post("/new", async (req, res) => {
   const { username, first, last, office } = req.body;

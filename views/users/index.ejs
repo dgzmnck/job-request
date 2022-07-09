@@ -5,31 +5,39 @@
 <div class="table-wrapper">
   <div class="divflex aic jcsb">
     <h1>All Users</h1>
-    <a href="/users/new" class="btn">New User</a>
+    <a href="/register" class="btn">New User</a>
   </div>
   <table class="fl-table">
     <thead>
       <tr>
-        <th>Last name</th>
-        <th>First name</th>
-        <th>Username</th>
         <th>Office</th>
+<th>Name</th>
+
+   
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
       <% for( let user of users) {%>
       <tr>
-        <td><%= user.last %></td>
-        <td><%= user.first %></td>
-        <td><%= user.username %></td>
         <% if(user.office) {%>
-        <td><%= user.office.name %></td>
+          <td><%= user.office.name %></td>
+        <td><%= user.fullname %></td>
+
+
+   
+
         <% } else {%>
         <td>---</td>
         <% } %>
         <td>
-          <button class="btn">Approve</button> <button class="btn">Deny</button>
+          <% if (user.is_member===true) { %>
+            Already approved
+          <% }else{ %>
+          <form action="/offices/approve/<%=  user.office._id %>/<%= user._id %>" method="POST">
+          <button class="btn">Approve</button>
+          </form>
+          <% } %> 
         </td>
       </tr>
       <% } %>

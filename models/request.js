@@ -36,7 +36,6 @@ const requestSchema = new mongoose.Schema(
     office: {
       type: String,
     },
-
     requester: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     personnel: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },

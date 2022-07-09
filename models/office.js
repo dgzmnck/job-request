@@ -15,6 +15,7 @@ const officeSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    
     members: [{type: mongoose.Schema.Types.ObjectId,ref:"User"}]
 
 },{timestamps:true})

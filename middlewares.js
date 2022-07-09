@@ -1,3 +1,5 @@
+const Office = require("./models/office");
+const User = require("./models/user");
 const AppError = require("./utils/AppError"); // self made error handler
 
 module.exports.isLoggedIn = (req, res, next) => {
@@ -8,6 +10,28 @@ module.exports.isLoggedIn = (req, res, next) => {
   }
   next();
 };
+
+module.exports.isMember = async (req, res, next) => {
+
+  const  {officeID} =req.params;
+  const office= await Office.findById(officeID);
+  const user = await User.findById(req.user._id);
+ 
+  console.log(officeID)
+  console.log(user)
+  if (office.members.includes(user._id)) { 
+  return next()
+  }
+  req.flash('error','you are not a member of this office')
+res.redirect('/profile')
+
+};
+
+// module.exports.isApproved = (req, res, next) => {
+//   if User.find({_id: req.user.id , })
+//     next();
+//   };
+
 
 // module.exports.isAuthor = async (req, res, next) => {
 //   const { id } = req.params;

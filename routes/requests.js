@@ -29,11 +29,9 @@ router.post("/", async (req, res) => {
   res.redirect("/profile");
 });
 
-router.get("/new", isLoggedIn, (req, res) => {
-  res.render("requests/new");
-});
 
-router.get("/:status", async (req, res) => {
+
+router.get("/status/:status", async (req, res) => {
   const { status } = req.params;
   console.log(status);
   if (status === "all") {
@@ -46,8 +44,12 @@ router.get("/:status", async (req, res) => {
     console.log(requests);
     res.render("requests", { requests });
   }
+  // res.send('prams');
 });
 
+router.get("/new", isLoggedIn, (req, res) => {
+  res.render("requests/new");
+});
 router.get("/:id/edit", async (req, res) => {
   const { id } = req.params;
   const r = await Request.findById(id);

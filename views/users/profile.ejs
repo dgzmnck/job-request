@@ -6,41 +6,55 @@
   <div class="side-card">
     <div class="card profile">
       <div class="profile-img">
-        <img src="" alt="" />
-        <h1>ND</h1>
-      </div>
-      <div class="profile-name">
-        <p><%= user.first %> <%= user.last %></p>
-      </div>
-      <%= user.office.name%> <% if (currentUser.position) { %>
-      <h5><%= currentUser.position %></h5>
 
-      <% } else { %>
-      <div class="profile-details">
-        <a href="#">+ Add position</a>
+        <% if (user.picture.url) { %>
+          <img src="<%= user.picture.url %>" alt="" /> 
+        <% } %>
+      
       </div>
-      <% } %>
+      <form id='foto' action='/profile/photo/<%= currentUser._id %>' method="POST"  enctype="multipart/form-data" >
+        <div style="height:0px;overflow:hidden"> 
+        <input type="file" id="fileInput" name="uploaded_file" onchange="this.form.submit()"/> 
+        </div>
+      
+        <i class='fa fa-camera' onclick="fileInput.click();"></i>
+      </form> 
     </div>
 
     <div class="card profile-details">
-      <h4>TY coins</h4>
+      <div class="profile-name">
+        <p><%= user.first %> <%= user.last %></p>
+      </div>
+
+    
+    </div>  
+
+    <div class="card profile-details">
+      <p>
+  <a href="/offices/home" class="btn"><%= user.office.name %> </a>
+</p>
+    </div>
+
+
+    <div class="card profile-details">
+  <span>TY COINSS</span>
       <span>192</span>
     </div>
 
     <div class="card profile-details">
-      <h4>Total requests</h4>
+      <%= user.picture.filename %>
+    <a class="btn "href="">Add Position</a>
+    </div>
+    <div class="card profile-details">
+      <%= user.picture.url %>
       <span>total</span>
     </div>
     <div class="card profile-details">
-      <h4>Pending</h4>
+      <%= user.picture.url %>
       <span>total</span>
     </div>
     <div class="card profile-details">
-      <h4>Completed</h4>
-      <span>total</span>
-    </div>
-    <div class="card profile-details">
-      <h4>Denied</h4>
+     Denied
       <span>total</span>
     </div>
   </div>
