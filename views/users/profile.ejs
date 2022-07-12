@@ -4,57 +4,56 @@
 
 <div class="profile-container">
   <div class="side-card">
-    <div class="card profile">
+    <div class="card profile-details">
       <div class="profile-img">
-
-        <% if (user.picture.url) { %>
-          <img src="<%= user.picture.url %>" alt="" /> 
+        <% if (user.picture.thumbnail) { %>
+        <img src="<%= user.picture.thumbnail %>" alt="" />
         <% } %>
-      
+        <form
+          id="foto"
+          action="/profile/photo/<%= currentUser._id %>"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <div style="height: 0px; overflow: hidden">
+            <input
+              type="file"
+              id="fileInput"
+              name="uploaded_file"
+              onchange="this.form.submit()"
+            />
+          </div>
+
+          <i class="fa fa-camera" onclick="fileInput.click();"></i>
+        </form>
       </div>
-      <form id='foto' action='/profile/photo/<%= currentUser._id %>' method="POST"  enctype="multipart/form-data" >
-        <div style="height:0px;overflow:hidden"> 
-        <input type="file" id="fileInput" name="uploaded_file" onchange="this.form.submit()"/> 
-        </div>
-      
-        <i class='fa fa-camera' onclick="fileInput.click();"></i>
-      </form> 
     </div>
 
     <div class="card profile-details">
-      <div class="profile-name">
-        <p><%= user.first %> <%= user.last %></p>
-      </div>
-
-    
-    </div>  
+      <p><%= user.first %> <%= user.last %></p>
+    </div>
 
     <div class="card profile-details">
       <p>
-  <a href="/offices/home" class="btn"><%= user.office.name %> </a>
-</p>
-    </div>
-
-
-    <div class="card profile-details">
-  <span>TY COINSS</span>
-      <span>192</span>
+        <a class="alink" href="/offices/home"
+          ><i class="fa-solid fa-link"></i> <%= user.office.name %></a
+        >
+      </p>
     </div>
 
     <div class="card profile-details">
-      <%= user.picture.filename %>
-    <a class="btn "href="">Add Position</a>
+      <a class="alight" href="/requests/new"
+        ><i class="fa-solid fa-pen-to-square"></i> Create a new request</a
+      >
     </div>
     <div class="card profile-details">
-      <%= user.picture.url %>
       <span>total</span>
     </div>
     <div class="card profile-details">
-      <%= user.picture.url %>
       <span>total</span>
     </div>
     <div class="card profile-details">
-     Denied
+      Denied
       <span>total</span>
     </div>
   </div>
@@ -124,9 +123,12 @@
           <tr>
             <td><%= r.createdAt.toISOString().split('T')[0] %></td>
             <td><%= r.createdAt.toLocaleTimeString()%></td>
-            <td><%= r.office %></td>
+            <td><%= r.office_code %></td>
             <td><%= r.category %></td>
-            <td><%= r.nature %></td>
+            <td>
+              <%= (r.nature.length >100) ? r.nature.substring(0,100) + "..." :
+              r.nature%>
+            </td>
             <td><%= r.status %></td>
 
             <td>

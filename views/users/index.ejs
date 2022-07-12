@@ -11,9 +11,8 @@
     <thead>
       <tr>
         <th>Office</th>
-<th>Name</th>
+        <th>Name</th>
 
-   
         <th>Action</th>
       </tr>
     </thead>
@@ -21,23 +20,15 @@
       <% for( let user of users) {%>
       <tr>
         <% if(user.office) {%>
-          <td><%= user.office.name %></td>
+        <td><%= user.office.name %></td>
         <td><%= user.fullname %></td>
-
-
-   
 
         <% } else {%>
         <td>---</td>
         <% } %>
         <td>
-          <% if (user.is_member===true) { %>
-            Already approved
-          <% }else{ %>
-          <form action="/offices/approve/<%=  user.office._id %>/<%= user._id %>" method="POST">
-          <button class="btn">Approve</button>
-          </form>
-          <% } %> 
+          <% if (user.is_member===true) { %> Already approved <% }else{ %>
+          Awaiting approval <% } %>
         </td>
       </tr>
       <% } %>

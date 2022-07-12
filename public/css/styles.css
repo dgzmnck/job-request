@@ -37,8 +37,7 @@ padding:0; */
     --red: #e74c3c;
     --green: #2ecc71;
     --flash_back: #ffeaa7;
-
-
+--blue_link:#3498db;
  --box-shadow:0 0 10px #e1e5ee;
  --border-radius: 0.2rem;
 
@@ -117,6 +116,60 @@ a {
     text-decoration: none;
     color:black;
 }
+.alink {
+    text-decoration: none;
+    color:var(--blue_link);
+}
+.alink:hover {
+    text-decoration: underline;
+    color:var(--blue_link);
+}
+
+.anavlink {
+    text-decoration: none;
+    color:black;
+background-color: transparent;
+font-size: 1rem;
+margin-left: 1rem;
+}
+.anavlink:hover {
+    /* text-decoration: underline */
+    color:var(--primary);
+}
+.nav .logo a {
+    font-size: 1.5rem; 
+    color:var(--primary) ;
+    text-shadow: 0 0 5px rgba(0,0,0,0.2);
+    position: relative;
+}
+.nav .logo ::after {
+    content:'';
+    position: absolute;
+    bottom:2px;
+    right:0;
+    width:52px;
+    height : 3px;
+    border-radius: var(--border-radius);
+    font-size: 1.5rem; 
+    background-color:var(--primary) ;
+    text-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+
+
+.alight {
+    text-decoration: none;
+    color:var(--blue_link);
+    background-color:white;
+    padding: 4px 20px;
+    border-radius: var(--border-radius);
+}
+.alight:hover {
+    text-decoration: none;
+    background-color:var(--blue_link);
+color:white;
+}
+
 .abtn {
     padding: 0.2rem 1rem;
     font-weight: bold;
@@ -130,9 +183,6 @@ cursor:pointer;
 text-align: center;
 text-decoration: none;
 margin-left: 1rem;
-
-
-
 
 }
 
@@ -276,7 +326,7 @@ width: 100%;
 margin-top: 1rem;
 display: flex;
 background-color: var(--gray1);
-flex:1;
+
 
 
 }
@@ -286,15 +336,16 @@ flex:1;
     text-align: center;
 margin-right: 2rem;
     color:var(--black);
-    min-width: 20%;
+    /* min-width: 20%; */
 
     border-radius: 20px;
     /* box-shadow: var(--box3da); */
-
+min-width: 220px;
     text-align: left;
     display: flex;
  flex-direction: column;
  overflow: hidden;
+ padding:0;
 
 }
 
@@ -309,6 +360,7 @@ min-width: 80%;
     position: relative;
     display: flex;
 flex-direction: column;    
+
 }
 
  .card.profile {
@@ -317,7 +369,7 @@ background-color: white;
 
     color:var(--black);
   
-width: 12rem;
+/* width: 12rem; */
 height: 12rem;
     border-radius: 20px 20px 5px 5px;
      box-shadow: var(--box3da); 
@@ -329,30 +381,44 @@ flex-direction: column;
 align-items: center;
 justify-content: center;
 
+background-color: transparent;
 
 
 }
 
 .profile-img {
     
-    background-color: white;
- width: 12rem;
- height:12rem;
+ 
+width: 210px;
+height: 210px;
     border-radius: 50%;
-    box-shadow: var(--box-shadow);
-    /* margin: 0 auto; */
-    overflow: hidden;
+    box-shadow: var(--box-shadow); 
+  /* margin: auto auto */
+   overflow: hidden;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center;  
+padding:0;
+z-index: 3;
+position:relative;
   
 }
 .profile-img img {
-    width: 95%;
-    height: 95%;
+
+    /* border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    width: 100%; */
+
+padding: 5px;
+background-color: white;
+    width: 200px;
+   height: 200px; 
     border-radius: 50%;
     object-fit: center fill;
     box-shadow: var(--box-shadow);
+   margin-left: 0;
+   margin-top:0;
 }
 
 .profile-name {
@@ -360,16 +426,41 @@ justify-content: center;
     /* margin-top: 1rem; */
 font-family: inherit;
 font-weight: bold;
-font-size: 1.5rem;
+font-size: 1rem;
 color:gray;
 text-shadow: 2px 2px rgba(0,0,0,0.2);
-position: absolute;
+
 }
 
 .profile-details {
-    margin-top: 2px;
-}
 
+    margin-top: 2px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+}
+.profile-details form {
+    position:absolute;
+    bottom:0;
+    height: 1rem;
+  border: 2px rgba(0,0,0,0.2);
+  padding:1rem  0;
+  cursor: pointer;
+  margin: auto auto;
+  background-color: rgba(0,0,0,0.2);
+}
+.profile-details form:hover {
+ color:white;
+  }
+
+
+.content-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
 
 .content-header {
     background-color: transparent;
@@ -380,6 +471,7 @@ position: absolute;
 padding: 1rem 1rem 0 1rem;
 
 box-shadow:var(--box3da);
+
 }
 
 .content-main {
@@ -576,5 +668,7 @@ opacity: 0;
     
 
 
-
+.profile-container {
+    flex-direction: column;
+}
   }

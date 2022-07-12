@@ -22,6 +22,7 @@ const flash = require("connect-flash"); // npm i connect-flash   //493
 const requestRoutes = require("./routes/requests");
 const officeRoutes = require("./routes/offices");
 const userRoutes = require("./routes/users");
+const adminRoutes = require("./routes/admin");
 //INSERT MODELS
 const Request = require("./models/request");
 const User = require("./models/user");
@@ -86,8 +87,9 @@ app.use((req, res, next) => {
 
 app.use("/requests", requestRoutes); // add the request routes
 app.use("/offices", officeRoutes); //add the office routes
-app.use("/", userRoutes); //add the user routes
 
+app.use("/admin", adminRoutes); //add the user routes
+app.use("/", userRoutes); //add the user routes
 const handleValidationErr = (err) => {
   return new AppError(`Validation failed ...${err.message}`, 400);
 };

@@ -1,7 +1,7 @@
 <header class="header">
   <nav class="nav">
     <div class="logo">
-      <a href="">MIS REQUEST</a>
+      <a href="">MIS ReQuest</a>
     </div>
     <button class="menu btn" id="menu"><i class="fa fa-bars"></i></button>
 
@@ -9,7 +9,7 @@
       <li class="navitem"><a href="/users">User</a></li>
       <li class="navitem"><a href="/offices">Office</a></li>
       <li class="navitem">
-        <a href="/requests">Requests</a>
+        <a href="/requests/today">Requests</a>
         <ul class="navitemdrop">
           <li><a href="/requests/new">New Request</a></li>
           <li><a href="/requests/status/all">All</a></li>
@@ -35,9 +35,13 @@
       <% if(currentUser) { %>
 
       <!-- <img src="" alt="" /> -->
-      <a class="abtn" href="/profile"><%= currentUser.first %></a>
+      <a class="anavlink" href="/profile">
+        <i class="fa-solid fa-user"></i> <%= currentUser.first %>
+      </a>
 
-      <a class="abtn" href="/logout">LOGOUT</a>
+      <a class="anavlink" href="/logout"
+        ><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</i></a
+      >
       <% } else { %>
       <a class="abtn" href="/register">REGISTER</a>
       <a class="abtn" href="/login">LOGIN</a>

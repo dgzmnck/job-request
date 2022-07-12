@@ -2,87 +2,38 @@
 
 <link rel="stylesheet" href="/css/table.css" />
 
-
 <div class="page-container divflex">
+  <div class="page-container divflex w100">
+    <div class="table-wrapper">
+      <div class="divflex aic jcsb">
+        <h1>All Offices</h1>
+      </div>
 
-<div class="form">
-  <link rel="stylesheet" href="/css/form.css" />
+      <table class="fl-table">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Office</th>
+            <th>Head</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for( let office of offices) {%>
+          <tr>
+            <td><%= office.code %></td>
+            <td><%= office.name %></td>
+            <td><%= office.head %></td>
 
-<div class="container">
-  <h2 class="form-title">CREATE NEW OFFICE</h2>
-
-  <form action="/offices/new" method="POST">
-    <div class="form-control">
-      <input type="text" name="code" required />
-      <label>Office code</label>
+            <td>
+              <a class="btn" href="/offices/home">View</a>
+            </td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
     </div>
-
-    <div class="form-control">
-      <input type="text" name="name" required />
-      <label>Office name</label>
-    </div>
-
-    <div class="form-control">
-      <input type="text" name="head" required />
-      <label>Office head</label>
-    </div>
-
-    <button class="formbtn">Save</button>
-  </form>
-</div>
-
-
-
-</div>
-
-
-<div class="page-container divflex w100">
-
-
-  <div class="table-wrapper">
-    <div class="divflex aic jcsb">
-      <h1>All Offices</h1>
-    </div>
-  
-    <table class="fl-table">
-      <thead>
-        <tr>
-          <th>Code</th>
-          <th>Office</th>
-          <th>Head</th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% for( let office of offices) {%>
-        <tr>
-          <td><%= office.code %></td>
-          <td><%= office.name %></td>
-          <td><%= office.head %></td>
-          <td>
-            <div>  <a class="btn">Edit</a></div>
-          </td>
-          <td>
-            <form action="/offices/<%= office._id%>?_method=DELETE" method="POST">  
-              <button class="btn danger">Delete</button>
-            </form>
-          </td>
-          <td>
-
-            <a class="btn" href="/offices/home">View</a>
-          </td>
-           
-           
-        
-        </tr>
-        <% } %>
-      </tbody>
-    </table>
   </div>
-  
-</div>
 </div>
 
 <script src="/js/form.js"></script>

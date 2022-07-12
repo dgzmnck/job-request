@@ -16,6 +16,18 @@ router.get(
   })
 );
 
+router.get(
+  "/today",
+  catchAsync(async (req, res) => {
+    const requests = await Request.find({})
+      .sort({ createdAt: 1 })
+      .populate("requester")
+      .populate("personnel");
+
+    res.render("requests/today", { requests });
+  })
+);
+
 router.post("/", async (req, res) => {
   const user = await User.findById(req.user._id).populate("office");
   const newR = new Request(req.body);
@@ -23,13 +35,11 @@ router.post("/", async (req, res) => {
   newR.requester = req.user;
   console.log(user);
   newR.office = user.office.name;
-
+  newR.office_code = user.office.code;
   await newR.save();
   req.flash("success", "Successfully created a request");
   res.redirect("/profile");
 });
-
-
 
 router.get("/status/:status", async (req, res) => {
   const { status } = req.params;
@@ -62,6 +72,18 @@ router.get("/:id/edit", async (req, res) => {
   const r = await Request.findById(id);
   console.log(r);
   res.render("requests/edit", { r, categories });
+});
+
+router.patch("/:requestId/:userId/accept", isLoggedIn, async (req, res) => {
+  const { requestId, userId } = req.params;
+  const r = await Request.findById(requestId);
+  const u = await User.findById(userId);
+  r.personnel.push(u._id);
+  r.status = "accepted";
+  await r.save();
+  req.flash("do the thing");
+
+  res.redirect("/profile");
 });
 
 router.put("/:id", async (req, res) => {

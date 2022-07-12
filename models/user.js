@@ -8,9 +8,8 @@ const ImageSchema = new Schema({
   filename: String,
 });
 
-
 ImageSchema.virtual("thumbnail").get(function () {
-  return this.url.replace("/upload", "/upload/w_200");
+  return this.url.replace("/upload", "/upload/w_300");
 });
 
 const UserSchema = new Schema(
@@ -23,17 +22,17 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
-    email : {
-      type:String,
-    
-      unique:true,
+    email: {
+      type: String,
+
+      unique: true,
     },
     office: { type: mongoose.Schema.Types.ObjectId, ref: "Office" },
     picture: ImageSchema,
     position: {
       type: String,
     },
-    is_member:Boolean,
+    is_member: Boolean,
     can_serve: Boolean,
     is_head: Boolean,
   },
@@ -44,7 +43,6 @@ UserSchema.virtual("fullname").get(function () {
   return `${this.first} ${this.last}
   `;
 });
-
 
 UserSchema.plugin(passportLocalMongoose);
 

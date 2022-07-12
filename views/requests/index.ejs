@@ -3,7 +3,9 @@
 <link rel="stylesheet" href="/css/table.css" />
 
 <div class="table-wrapper">
-  <h1>All requests</h1>
+  <span>ALL REQUESTS</span>
+
+  <span>TODAY</span>
 
   <table class="fl-table">
     <thead>
@@ -33,7 +35,12 @@
 
         <td>
           <div>
-            <button class="btn">details</button>
+            <form
+              action="/requests/<%= r._id %>/<%= currentUser._id %>/accept?_method=PATCH"
+              method="POST"
+            >
+              <button class="btn">Accept</button>
+            </form>
           </div>
         </td>
       </tr>
