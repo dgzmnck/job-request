@@ -115,6 +115,7 @@ height: 7vh;
 a {
     text-decoration: none;
     color:black;
+    outline:none;
 }
 .alink {
     text-decoration: none;
@@ -142,7 +143,8 @@ margin-left: 1rem;
     text-shadow: 0 0 5px rgba(0,0,0,0.2);
     position: relative;
 }
-.nav .logo ::after {
+
+/* .nav .logo ::after {
     content:'';
     position: absolute;
     bottom:2px;
@@ -153,7 +155,7 @@ margin-left: 1rem;
     font-size: 1.5rem; 
     background-color:var(--primary) ;
     text-shadow: 0 0 5px rgba(0,0,0,0.2);
-}
+} */
 
 
 
@@ -286,7 +288,7 @@ justify-content: center; */
     padding: 0.2rem 1rem;
     border-radius: 10px;
     color:var(--gray4);
-    
+    outline:none;
   
 }
 .atoggle.active {
@@ -299,7 +301,8 @@ justify-content: center; */
     box-shadow: var(--box3da);
    pointer-events: none;
    cursor: pointer;
- 
+ outline:none;
+
 }
 
 .atoggle:hover {
@@ -483,7 +486,8 @@ margin-top: 0.5rem;
     flex:1;
     display: flex;
     flex-direction: column;
-    max-width: 100%;
+    width: 100%;
+
 
 }
 

@@ -19,12 +19,22 @@ router.get(
 router.get(
   "/today",
   catchAsync(async (req, res) => {
-    const requests = await Request.find({})
+    const pending = await Request.find({ status: "pending" })
       .sort({ createdAt: 1 })
       .populate("requester")
       .populate("personnel");
 
-    res.render("requests/today", { requests });
+    const completed = await Request.find({ status: "completed" })
+      .sort({ createdAt: 1 })
+      .populate("requester")
+      .populate("personnel");
+
+    const accepted = await Request.find({ status: "accepted" })
+      .sort({ createdAt: 1 })
+      .populate("requester")
+      .populate("personnel");
+
+    res.render("requests/today", { pending, accepted, completed });
   })
 );
 

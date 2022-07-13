@@ -2,46 +2,175 @@
 
 <link rel="stylesheet" href="/css/request_today.css" />
 <div class="whole">
-  <h1>TODAY</h1>
   <div class="whole-section" id="inprogress">
-    <h2>Currently working</h2>
-    <div class="job">
-      <div class="gif"><img src="/img/working.gif" alt="" /></div>
+    <div class="category">
+      <img src="/img/working.gif" alt="" />
+      <h2>Currently working</h2>
     </div>
 
-    <% for( let r of requests) { %>
-    <div class="job">
-      <div class="personnel">
-        <div class="requester_category"><%= r.category%></div>
-        <% if (r.personnel.length) {%> <% for ( let p of r.personnel) {%>
-        <div class="staff"><%= p.fullname %></div>
-        <% } %> <% } %>
-      </div>
+    <% for( let r of accepted) { %>
 
-      <div class="requester_picture">
-        <img src="<%= r.requester.picture.thumbnail %>" alt="" />
-      </div>
+    <div class="flip-card">
+      <div class="flip-inner">
+        <div class="back-card">
+          <div class="back-card-content">
+            <div class="title"><h3>Personnel</h3></div>
 
-      <div class="requester">
-        <div class="requester_name"><%= r.requester.fullname %></div>
-        <div class="requester_office"><%= r.office_code %></div>
+            <div class="image">
+              <img src="<%= r.personnel[0].picture.thumbnail %>" alt="" />
+            </div>
 
-        <div class="requester_request"><%= r.nature %></div>
+            <div class="footer">
+              <div class="personnel">
+                <% if (r.personnel.length) { for ( let p of r.personnel) {%>
+                <h3><%= p.first %></h3>
+                <% } } else { %>
+                <button class="btn">Accept</button>
+
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="front-card">
+          <div class="job">
+            <div class="requester_category"><h3><%= r.category%></h3></div>
+            <div class="requester_picture">
+              <img src="<%= r.requester.picture.thumbnail %>" alt="" />
+            </div>
+
+            <div class="requester">
+              <div class="requester_name"><%= r.requester.first %></div>
+              <div class="requester_office"><%= r.office_code %></div>
+
+              <div class="requester_request"><%= r.nature %></div>
+              <% if (r.personnel.length) {%> <% for ( let p of r.personnel) {%>
+              <div class="staff"><%= p.first %></div>
+              <% } %> <% } %>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <% } %>
   </div>
+
   <div class="whole-section" id="pending">
-    <h2>Pending</h2>
-    <div class="job">
-      <div class="gif"><img src="/img/waiting.gif" alt="" /></div>
+    <div class="category">
+      <img src="/img/pending.gif" alt="" />
+      <h2>Pending</h2>
     </div>
+
+    <% for( let r of pending) { %>
+    <div class="flip-card">
+      <div class="flip-inner">
+        <div class="back-card">
+          <div class="back-card-content">
+            <div class="title"><h3>Personnel</h3></div>
+
+            <div class="image">
+              <% if (r.personnel.length) { %>
+              <img src="<%= r.personnel[0].picture.thumbnail %>" alt="" />
+              <% } %>
+            </div>
+
+            <div class="footer">
+              <div class="personnel">
+                <% if (r.personnel.length) { for ( let p of r.personnel) {%>
+                <h3><%= p.first %></h3>
+                <% } } else { %>
+                <button class="btn">Accept</button>
+
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="front-card">
+          <div class="job">
+            <div class="requester_category"><h3><%= r.category%></h3></div>
+            <div class="requester_picture">
+              <img src="<%= r.requester.picture.thumbnail %>" alt="" />
+            </div>
+
+            <div class="requester">
+              <div class="requester_name"><%= r.requester.first %></div>
+              <div class="requester_office"><%= r.office_code %></div>
+
+              <div class="requester_request"><%= r.nature %></div>
+              <% if (r.personnel.length) {%> <% for ( let p of r.personnel) {%>
+              <div class="staff"><%= p.first %></div>
+              <% } %> <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <% } %>
   </div>
+
   <div class="whole-section" id="completed">
-    <h2>Completed Today</h2>
-    <div class="job">
-      <div class="gif"><img src="/img/success.gif" alt="" /></div>
+    <div class="category">
+      <img src="/img/success.gif" alt="" />
+      <h2>Completed Today</h2>
     </div>
+
+    <% for( let r of completed) { %>
+
+    <div class="flip-card">
+      <div class="flip-inner">
+        <div class="personnel">
+          <div class="personnel-job">
+            <div class="requester_picture">
+              <% if (r.personnel.picture) { %>
+              <img src="<%= r.personnel[0].picture.thumbnail %>" alt="" />
+              <% } %>
+            </div>
+
+            <div class="requester">
+              <div class="requester_name"><%= r.personnel.first %></div>
+              <!-- <div class="requester_office"><%= r.personnel.office_code %></div> -->
+
+              <!-- <div class="requester_request"><%= r.nature %></div> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="job-container">
+          <div class="job">
+            <div class="requester_category"><%= r.category%></div>
+            <div class="requester_picture">
+              <% if (r.requester.picture) { %>
+              <img src="<%= r.requester.picture.thumbnail %>" alt="" />
+              <% } %>
+            </div>
+
+            <div class="requester">
+              <div class="requester_name"><%= r.requester.first %></div>
+              <div class="requester_office"><%= r.office_code %></div>
+
+              <div class="requester_request"><%= r.nature %></div>
+              <% if (r.personnel.length) {%> <% for ( let p of r.personnel) {%>
+              <div class="staff"><%= p.first %></div>
+              <% } %> <% } %>
+            </div>
+          </div>
+          <div class="personnel">
+            <% if (r.personnel && r.personnel.length) {%> <% for ( let p of
+            r.personnel) {%>
+            <div class="staff"><%= p.first %></div>
+            <% } %> <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <% } %>
   </div>
 </div>
+
+<script src="/js/request_today.js"></script>
