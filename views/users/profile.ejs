@@ -1,6 +1,21 @@
 <%- layout('layouts/boilerplate') %>
 
 <link rel="stylesheet" href="/css/table.css" />
+<link rel="stylesheet" href="/css/modal.css" />
+<link rel="stylesheet" type="text/css" href="/css/starability.css" />
+
+<!-- <div class="modal">
+  <div class="modal-container">
+    <%- include('../partials/rating') %>
+
+    <div class="close"><i class="fa-solid fa-xmark"></i></div>
+    <div class="text">Are you sure?</div>
+    <div class="buttons">
+      <button class="btn">Yes</button>
+      <button class="btn">No</button>
+    </div>
+  </div>
+</div> -->
 
 <div class="profile-container">
   <div class="side-card">
@@ -64,8 +79,8 @@
         class="atoggle <%= (status && status === 'all') ? 'active' : ''%>"
         id="all"
         href="/profile/requests/all"
-        >My requests</a
-      >
+        >My requests ( <%= requests.length %> )
+      </a>
       <a
         class="atoggle <%= (status && status === 'pending') ? 'active' : ''%>"
         id="pending"
@@ -73,10 +88,17 @@
         >Pending</a
       >
       <a
+        class="atoggle <%= (status && status === 'awaiting-approval') ? 'active' : ''%>"
+        id="awaiting-approval"
+        href="/profile/requests/awaiting-approval"
+        >Awaiting Approval</a
+      >
+
+      <a
         class="atoggle <%= (status && status === 'posted') ? 'active' : ''%>"
         id="posted"
         href="/profile/requests/posted"
-        >Posted</a
+        >Approved</a
       >
       <a
         class="atoggle <%= (status && status === 'accepted') ? 'active' : ''%>"
@@ -88,19 +110,26 @@
         class="atoggle <%= (status && status === 'completed') ? 'active' : ''%>"
         id="completed"
         href="/profile/requests/completed"
-        >Completed</a
+        >To Rate7</a
       >
+
       <a
-        class="atoggle <%= (status && status === 'to-rate') ? 'active' : ''%>"
-        id="to-rate"
-        href="/profile/requests/to-rate"
-        >To Rate</a
+        class="atoggle <%= (status && status === 'cancelled') ? 'active' : ''%>"
+        id="cancelled"
+        href="/profile/requests/cancelled"
+        >Cancelled by requester</a
       >
       <a
         class="atoggle <%= (status && status === 'cancelled') ? 'active' : ''%>"
         id="cancelled"
         href="/profile/requests/cancelled"
-        >Cancelled</a
+        >Denied by admin</a
+      >
+      <a
+        class="atoggle <%= (status && status === 'finished') ? 'active' : ''%>"
+        id="finshed"
+        href="/profile/requests/cancelled"
+        >Finished</a
       >
     </div>
 
@@ -133,7 +162,64 @@
 
             <td>
               <div>
-                <button class="btn">details</button>
+                <% if (status=="accepted") { %>
+                <button class="btn">Mark as Done</button>
+                <% } else if (status==="awaiting-approval") {%>
+                <button class="btn">Cancel</button>
+
+                <% } else if (status==="completed") {%>
+                <form action="">
+                  <fieldset class="starability-basic">
+                    <input
+                      type="radio"
+                      id="<%= r._id %>-0"
+                      class="input-no-rate"
+                      name="rating"
+                      value="0"
+                      checked
+                      aria-label="No rating."
+                    />
+                    <input
+                      type="radio"
+                      id="<%= r._id %>-1"
+                      name="rating"
+                      value="1"
+                    />
+                    <label for="<%= r._id %>-1" title="Terrible">1 star</label>
+                    <input
+                      type="radio"
+                      id="<%= r._id %>-2"
+                      name="rating"
+                      value="2"
+                    />
+                    <label for="<%= r._id %>-2" title="Not good">2 stars</label>
+                    <input
+                      type="radio"
+                      id="<%= r._id %>-3"
+                      name="rating"
+                      value="3"
+                    />
+                    <label for="<%= r._id %>-3" title="Average">3 stars</label>
+                    <input
+                      type="radio"
+                      id="<%= r._id %>-4"
+                      name="rating"
+                      value="4"
+                    />
+                    <label for="<%= r._id %>-4" title="Very good"
+                      >4 stars</label
+                    >
+                    <input
+                      type="radio"
+                      id="<%= r._id %>-5"
+                      name="rating"
+                      value="5"
+                    />
+                    <label for="<%= r._id %>-5" title="Amazing">5 stars</label>
+                  </fieldset>
+                  <button class="btn">Save</button>
+                </form>
+                <% } %>
               </div>
             </td>
           </tr>
@@ -146,3 +232,4 @@
 </div>
 
 <script src="/js/profile.js"></script>
+<script src="/js/request_status.js"></script>

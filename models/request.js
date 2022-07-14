@@ -28,6 +28,8 @@ const requestSchema = new mongoose.Schema(
         "in-progress",
         "completed",
         "accepted",
+        "cancelled",
+        "approved",
       ],
     },
     remarks: {

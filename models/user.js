@@ -33,7 +33,7 @@ const UserSchema = new Schema(
       type: String,
     },
     is_member: Boolean,
-    can_serve: Boolean,
+    is_personnel: Boolean,
     is_head: Boolean,
   },
   { timestamps: true }

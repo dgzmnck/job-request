@@ -1,5 +1,6 @@
 const express = require("express");
-const { isLoggedIn } = require("../middlewares");
+
+const { isLoggedIn, isOwner } = require("../middlewares");
 const router = express.Router();
 const Request = require("../models/request");
 const User = require("../models/user");
@@ -25,12 +26,12 @@ router.get(
       .populate("personnel");
 
     const completed = await Request.find({ status: "completed" })
-      .sort({ createdAt: 1 })
+      .sort({ createdAt: -1 })
       .populate("requester")
       .populate("personnel");
 
     const accepted = await Request.find({ status: "accepted" })
-      .sort({ createdAt: 1 })
+      .sort({ createdAt: -1 })
       .populate("requester")
       .populate("personnel");
 
@@ -41,7 +42,7 @@ router.get(
 router.post("/", async (req, res) => {
   const user = await User.findById(req.user._id).populate("office");
   const newR = new Request(req.body);
-  newR.status = "pending";
+  newR.status = "awaiting-approval";
   newR.requester = req.user;
   console.log(user);
   newR.office = user.office.name;
@@ -77,23 +78,40 @@ router.get("/:id/edit", async (req, res) => {
   res.render("requests/edit", { r, categories });
 });
 
-router.get("/:id/edit", async (req, res) => {
-  const { id } = req.params;
-  const r = await Request.findById(id);
-  console.log(r);
-  res.render("requests/edit", { r, categories });
-});
+router.patch(
+  "/:requestId",
+  isLoggedIn,
+  isOwner,
+  catchAsync(async (req, res) => {
+    const { requestId } = req.params;
+    const { status } = req.body;
+    const r = await Request.findById(requestId);
+    // const u = await User.findById(userId);
+    r.status = status;
+    await r.save();
+    req.flash("success", "status changed to " + status);
+    res.redirect("/profile");
+    // console.log(r);
+    // res.render("requests/edit", { r, categories });
+  })
+);
 
 router.patch("/:requestId/:userId/accept", isLoggedIn, async (req, res) => {
   const { requestId, userId } = req.params;
   const r = await Request.findById(requestId);
   const u = await User.findById(userId);
+
+  if (r.status !== "pending") {
+    req.flash("error", "Request has been accepted or cancelled already");
+    return res.redirect("/requests/today");
+  }
+
   r.personnel.push(u._id);
   r.status = "accepted";
   await r.save();
-  req.flash("do the thing");
+  req.flash("success", "Request accepted! Off you go! Pal.");
 
-  res.redirect("/profile");
+  res.redirect("/requests/today");
 });
 
 router.put("/:id", async (req, res) => {

@@ -1,5 +1,8 @@
 const flipcards = document.querySelectorAll(".flip-card");
 const body = document.body;
+const personnel_img_container = document.getElementById(
+  "personnel_img_container"
+);
 // flipcards.forEach((f) => {
 //   const flipInner = f.firstChild;
 //   flipInner.classList.toggle("flip");
@@ -20,6 +23,12 @@ flipcards.forEach((f) => {
     const inner = f.querySelector(".flip-inner");
     console.log(inner);
     inner.classList.toggle("flip");
+
+    setTimeout(() => {
+      if (inner.classList.contains("flip")) {
+        inner.classList.remove("flip");
+      }
+    }, 5000);
   });
 });
 

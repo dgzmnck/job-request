@@ -413,15 +413,15 @@ position:relative;
     padding: 5px;
     width: 100%; */
 
-padding: 5px;
 background-color: white;
-    width: 200px;
-   height: 200px; 
+    width: 300px;
+ height: 300px;
     border-radius: 50%;
     object-fit: center fill;
     box-shadow: var(--box-shadow);
    margin-left: 0;
    margin-top:0;
+   background-position: center;
 }
 
 .profile-name {
@@ -447,15 +447,23 @@ text-align: center;
 .profile-details form {
     position:absolute;
     bottom:0;
-    height: 1rem;
-  border: 2px rgba(0,0,0,0.2);
-  padding:1rem  0;
+    height: 2rem;
+
+
   cursor: pointer;
   margin: auto auto;
-  background-color: rgba(0,0,0,0.2);
+  background-color: rgba(0,0,0,0.5);
+
 }
-.profile-details form:hover {
- color:white;
+.profile-details form i{
+font-size: 1.2rem;
+  color: white;
+  padding: 0.2rem;
+  margin:0;
+}
+
+.profile-details form i:hover {
+ color:var(--primary);
   }
 
 

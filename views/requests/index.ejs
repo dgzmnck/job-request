@@ -30,7 +30,11 @@
         <td><%= r.office %></td>
         <td><%= r.requester.first %> <%= r.requester.last %></td>
         <td><%= r.category %></td>
-        <td><%= r.nature %></td>
+        <td>
+          <% if (r.nature.length > 70) { %> <%= r.nature.substring(0,70) %>
+          <a href="#" class="alink"> see more...</a>
+          <% } else { %> <%= r.nature %> <%} %>
+        </td>
         <td><%= r.status %></td>
 
         <td>

@@ -1,4 +1,5 @@
 const Office = require("./models/office");
+const Request = require("./models/request");
 const User = require("./models/user");
 const AppError = require("./utils/AppError"); // self made error handler
 
@@ -42,15 +43,16 @@ module.exports.isAdmin = async (req, res, next) => {
 //     next();
 //   };
 
-// module.exports.isAuthor = async (req, res, next) => {
-//   const { id } = req.params;
-//   const campground = await Campground.findById(id);
-//   if (!campground.author.equals(req.user._id)) {
-//     req.flash("error", "no permission to edit");
-//     return res.redirect(`/campgrounds/${campground._id}`);
-//   }
-//   next();
-// };
+module.exports.isOwner = async (req, res, next) => {
+  const { requestId } = req.params;
+  const r = await Request.findById(requestId);
+  if (!r.requester.equals(req.user._id)) {
+    req.flash("error", "no permission to edit");
+    return res.redirect(req.originalUrl);
+  }
+  next();
+};
+
 // module.exports.isReviewAuthor = async (req, res, next) => {
 //   const { id, reviewId } = req.params;
 //   const review = await Review.findById(reviewId);
