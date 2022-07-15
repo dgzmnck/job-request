@@ -36,7 +36,12 @@
 .fl-table td {
     border-right: 1px solid #f8f8f8;
     font-size: 12px;
-}
+
+
+   /* white-space: pre-wrap; */
+   /* word-wrap: break-word; */
+} 
+
 
 .fl-table thead th {
 padding-left: 10px;

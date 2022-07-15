@@ -7,6 +7,16 @@
 
   <form action="/requests" method="POST">
     <div class="form-control">
+      <select name="for_office" id="for_office" required>
+        <option value=""></option>
+        <% for ( let office of offices) { %>
+        <option value="<%= office._id %>"><%= office.name %></option>
+        <% } %>
+      </select>
+      <label for="for_office">For Office</label>
+    </div>
+
+    <div class="form-control">
       <select name="category" id="category" required>
         <option value=""></option>
         <option value="Submit Grades">Submit Grades</option>
@@ -29,8 +39,16 @@
     <!-- <div class="form-control">
       <input type="file" name="requester" id="requester" required />
     </div> -->
+    <div class="form-control">
+      <input type="number" name="bounty" required />
+      <label>Put Bounty (Reward)</label>
+    </div>
 
-    <button class="formbtn">Post</button>
+    <button class="formbtn">Send Request</button>
+
+    <button class="formbtn" style="background-color: gold">
+      Post Directly
+    </button>
   </form>
 </div>
 <script src="/js/form.js"></script>

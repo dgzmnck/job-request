@@ -8,14 +8,20 @@
     position: absolute;
     top:0;
     left:0;
-background-color: rgba(0,0,0,0.5);
+background-color: rgba(0,0,0,0.7);
     width: 100vw;
     height: 100vh;
-    z-index: 9;
+     z-index: 4; 
     display: flex;
     justify-content: center;
-    
+    visibility: hidden;
+    pointer-events: none;
 }
+.modal.show {
+    visibility: visible;
+    pointer-events: auto;
+}
+
 .modal-container {
 width: 300px;
 height: 200px;
@@ -28,6 +34,7 @@ border-radius: 10px;
 margin-top: 30vh;
 box-shadow: var(--box3da);
 position: relative;
+/* pointer-events: none; */
 }
 .modal-container .close {
     position: absolute;

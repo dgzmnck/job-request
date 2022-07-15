@@ -17,8 +17,6 @@ module.exports.isMember = async (req, res, next) => {
   const office = await Office.findById(officeID);
   const user = await User.findById(req.user._id);
 
-  console.log(officeID);
-  console.log(user);
   if (office.members.includes(user._id)) {
     return next();
   }
@@ -28,20 +26,15 @@ module.exports.isMember = async (req, res, next) => {
 
 module.exports.isAdmin = async (req, res, next) => {
   const user = await User.findById(req.user._id);
+  console.log(user, user.is_admin);
 
-  console.log(officeID);
-  console.log(user);
-  if (office.members.includes(user._id)) {
-    return next();
+  if (user.is_admin === false) {
+    req.flash("error", "Not authorized");
+    return res.redirect("/profile");
   }
-  req.flash("error", "you are not a member of this office");
-  res.redirect("/profile");
-};
 
-// module.exports.isApproved = (req, res, next) => {
-//   if User.find({_id: req.user.id , })
-//     next();
-//   };
+  return next();
+};
 
 module.exports.isOwner = async (req, res, next) => {
   const { requestId } = req.params;

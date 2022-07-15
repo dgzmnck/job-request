@@ -1,8 +1,14 @@
 //just require mongoose but not connect to database
+const { number } = require("joi");
 const mongoose = require("mongoose");
 
 const requestSchema = new mongoose.Schema(
   {
+    for_office: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Office",
+      required: true,
+    },
     nature: {
       type: String,
       required: true,
@@ -21,11 +27,9 @@ const requestSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: [
-        "awaiting-approval",
         "pending",
         "posted",
         "denied",
-        "in-progress",
         "completed",
         "accepted",
         "cancelled",
@@ -43,6 +47,13 @@ const requestSchema = new mongoose.Schema(
     },
     requester: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     personnel: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+
+    date_approved: { type: Date, default: null },
+    date_accepted: { type: Date, default: null },
+    date_completed: { type: Date, default: null },
+    date_denied: { type: Date, default: null },
+    date_cancelled: { type: Date, default: null },
+    bounty: Number,
   },
   { timestamps: true }
 );

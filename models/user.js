@@ -24,17 +24,18 @@ const UserSchema = new Schema(
     },
     email: {
       type: String,
-
       unique: true,
     },
     office: { type: mongoose.Schema.Types.ObjectId, ref: "Office" },
     picture: ImageSchema,
     position: {
       type: String,
+      default: "Staff",
     },
-    is_member: Boolean,
-    is_personnel: Boolean,
-    is_head: Boolean,
+    is_member: { type: Boolean, default: false },
+    is_personnel: { type: Boolean, default: false },
+    is_head: { type: Boolean, default: false },
+    is_admin: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

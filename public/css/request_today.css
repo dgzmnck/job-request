@@ -67,7 +67,7 @@ body {
   background-color: transparent;
   perspective: 1000px;
   width: 200px;
-  height: 350px;
+  height: 300px;
   cursor: pointer;
 }
 .whole-section .flip-card .flip-inner {

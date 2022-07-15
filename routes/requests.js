@@ -3,6 +3,7 @@ const express = require("express");
 const { isLoggedIn, isOwner } = require("../middlewares");
 const router = express.Router();
 const Request = require("../models/request");
+const Office = require("../models/office");
 const User = require("../models/user");
 const catchAsync = require("../utils/catchAsync");
 
@@ -39,16 +40,18 @@ router.get(
   })
 );
 
-router.post("/", async (req, res) => {
+router.post("/", isLoggedIn, async (req, res) => {
   const user = await User.findById(req.user._id).populate("office");
   const newR = new Request(req.body);
-  newR.status = "awaiting-approval";
+
+  newR.status = "pending";
   newR.requester = req.user;
   console.log(user);
   newR.office = user.office.name;
   newR.office_code = user.office.code;
+
   await newR.save();
-  req.flash("success", "Successfully created a request");
+  req.flash("success", "Your request is pending for approval");
   res.redirect("/profile");
 });
 
@@ -68,8 +71,10 @@ router.get("/status/:status", async (req, res) => {
   // res.send('prams');
 });
 
-router.get("/new", isLoggedIn, (req, res) => {
-  res.render("requests/new");
+router.get("/new", async (req, res) => {
+  const offices = await Office.find({ can_accept_request: true });
+
+  res.render("requests/new", { offices });
 });
 router.get("/:id/edit", async (req, res) => {
   const { id } = req.params;
@@ -84,7 +89,7 @@ router.patch(
   isOwner,
   catchAsync(async (req, res) => {
     const { requestId } = req.params;
-    const { status } = req.body;
+    const { status, rating } = req.body;
     const r = await Request.findById(requestId);
     // const u = await User.findById(userId);
     r.status = status;

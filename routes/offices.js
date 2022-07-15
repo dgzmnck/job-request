@@ -21,6 +21,25 @@ router.get("/", async (req, res) => {
   res.render("offices/", { offices });
 });
 
+router.patch(
+  "/:officeId",
+  catchAsync(async (req, res) => {
+    const { officeId } = req.params;
+    console.log(officeId);
+    console.log(req.body);
+    const { can_accept_request } = req.body;
+
+    const updatedoffice = await Office.findByIdAndUpdate(
+      officeId,
+      { $set: { can_accept_request } },
+      { new: true }
+    );
+    console.log(updatedoffice);
+    req.flash("success", "office updated");
+    res.redirect("/offices");
+  })
+);
+
 // router.get("/new", (req, res) => {
 //   res.render("offices/new");
 // });

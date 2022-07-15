@@ -4,18 +4,18 @@
 <link rel="stylesheet" href="/css/modal.css" />
 <link rel="stylesheet" type="text/css" href="/css/starability.css" />
 
-<!-- <div class="modal">
+<div class="modal" id="modal">
   <div class="modal-container">
-    <%- include('../partials/rating') %>
+    <!-- <%- include('../partials/rating') %> -->
 
-    <div class="close"><i class="fa-solid fa-xmark"></i></div>
+    <div class="close" id="modal_close"><i class="fa-solid fa-xmark"></i></div>
     <div class="text">Are you sure?</div>
     <div class="buttons">
       <button class="btn">Yes</button>
       <button class="btn">No</button>
     </div>
   </div>
-</div> -->
+</div>
 
 <div class="profile-container">
   <div class="side-card">
@@ -24,6 +24,7 @@
         <% if (user.picture.thumbnail) { %>
         <img src="<%= user.picture.thumbnail %>" alt="" />
         <% } %>
+
         <form
           id="foto"
           action="/profile/photo/<%= currentUser._id %>"
@@ -62,14 +63,9 @@
       >
     </div>
     <div class="card profile-details">
-      <span>total</span>
-    </div>
-    <div class="card profile-details">
-      <span>total</span>
-    </div>
-    <div class="card profile-details">
-      Denied
-      <span>total</span>
+      <a class="alight" href="/admin">
+        <i class="fa-solid fa-gear"></i> Admin Dashboard</a
+      >
     </div>
   </div>
 
@@ -87,12 +83,12 @@
         href="/profile/requests/pending"
         >Pending</a
       >
-      <a
+      <!-- <a
         class="atoggle <%= (status && status === 'awaiting-approval') ? 'active' : ''%>"
         id="awaiting-approval"
         href="/profile/requests/awaiting-approval"
         >Awaiting Approval</a
-      >
+      > -->
 
       <a
         class="atoggle <%= (status && status === 'posted') ? 'active' : ''%>"
@@ -143,7 +139,8 @@
             <th>Category</th>
             <th>Nature of Request</th>
             <th>Status</th>
-            <th></th>
+            <th>Action</th>
+            <th>Remarks</th>
           </tr>
         </thead>
         <tbody>
@@ -151,24 +148,34 @@
 
           <tr>
             <td><%= r.createdAt.toISOString().split('T')[0] %></td>
-            <td><%= r.createdAt.toLocaleTimeString()%></td>
+            <td>
+              <%= r.createdAt.toLocaleTimeString([], { hour: "2-digit", minute:
+              "2-digit" }) %>
+            </td>
             <td><%= r.office_code %></td>
             <td><%= r.category %></td>
-            <td>
+            <td class="wrap">
               <%= (r.nature.length >100) ? r.nature.substring(0,100) + "..." :
               r.nature%>
+              <!-- <p><%= r.nature %></p> -->
             </td>
             <td><%= r.status %></td>
 
             <td>
               <div>
                 <% if (status=="accepted") { %>
-                <button class="btn">Mark as Done</button>
-                <% } else if (status==="awaiting-approval") {%>
+
+                <form action="/request"></form>
+                <button class="btnAccept" value="<%= r._id %> ">
+                  Mark as Done
+                </button>
+
+                <% } else if (status==="pending") {%>
                 <button class="btn">Cancel</button>
 
                 <% } else if (status==="completed") {%>
-                <form action="">
+
+                <form action="" id="rating-form">
                   <fieldset class="starability-basic">
                     <input
                       type="radio"
@@ -178,33 +185,38 @@
                       value="0"
                       checked
                       aria-label="No rating."
+                      onchange="this.form.submit()"
                     />
                     <input
                       type="radio"
                       id="<%= r._id %>-1"
                       name="rating"
                       value="1"
+                      onchange="this.form.submit()"
                     />
-                    <label for="<%= r._id %>-1" title="Terrible">1 star</label>
+                    <label for="<%= r._id %>-1" title="Poor">1 star</label>
                     <input
                       type="radio"
                       id="<%= r._id %>-2"
                       name="rating"
                       value="2"
+                      onchange="this.form.submit()"
                     />
-                    <label for="<%= r._id %>-2" title="Not good">2 stars</label>
+                    <label for="<%= r._id %>-2" title="Fair">2 stars</label>
                     <input
                       type="radio"
                       id="<%= r._id %>-3"
                       name="rating"
                       value="3"
+                      onchange="this.form.submit()"
                     />
-                    <label for="<%= r._id %>-3" title="Average">3 stars</label>
+                    <label for="<%= r._id %>-3" title="Good">3 stars</label>
                     <input
                       type="radio"
                       id="<%= r._id %>-4"
                       name="rating"
                       value="4"
+                      onchange="this.form.submit()"
                     />
                     <label for="<%= r._id %>-4" title="Very good"
                       >4 stars</label
@@ -214,14 +226,17 @@
                       id="<%= r._id %>-5"
                       name="rating"
                       value="5"
+                      onchange="this.form.submit()"
                     />
-                    <label for="<%= r._id %>-5" title="Amazing">5 stars</label>
+                    <label for="<%= r._id %>-5" title="Excellent"
+                      >5 stars</label
+                    >
                   </fieldset>
-                  <button class="btn">Save</button>
                 </form>
                 <% } %>
               </div>
             </td>
+            <td>awaiting admin or head approval</td>
           </tr>
 
           <% } %>
@@ -232,4 +247,4 @@
 </div>
 
 <script src="/js/profile.js"></script>
-<script src="/js/request_status.js"></script>
+<script src="/js/request_profile.js"></script>

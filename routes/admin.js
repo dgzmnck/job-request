@@ -1,9 +1,15 @@
 const express = require("express");
-const { isLoggedIn, isMember } = require("../middlewares");
+const { isLoggedIn, isMember, isAdmin } = require("../middlewares");
 const router = express.Router();
 const Office = require("../models/office");
 const User = require("../models/user");
 const catchAsync = require("../utils/catchAsync");
+
+router.get("/", isLoggedIn, isAdmin, async (req, res, next) => {
+  const offices = await Office.find({});
+  console.log(offices);
+  res.render("admin/dashboard", { offices });
+});
 
 router.get("/offices", async (req, res) => {
   const offices = await Office.find({});

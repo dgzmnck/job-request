@@ -16,6 +16,7 @@
             <th>Office</th>
             <th>Head</th>
             <th></th>
+            <th>Can handle request</th>
           </tr>
         </thead>
         <tbody>
@@ -27,6 +28,19 @@
 
             <td>
               <a class="btn" href="/offices/home">View</a>
+            </td>
+            <td>
+              <form
+                action="/offices/<%= office._id %>?_method=PATCH"
+                method="POST"
+              >
+                <button class="btn" value="1" name="can_accept_request">
+                  Yes
+                </button>
+                <button class="btn" value="0" name="can_accept_request">
+                  No
+                </button>
+              </form>
             </td>
           </tr>
           <% } %>
