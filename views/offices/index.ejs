@@ -17,6 +17,7 @@
             <th>Head</th>
             <th></th>
             <th>Can handle request</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -40,6 +41,14 @@
                 <button class="btn" value="0" name="can_accept_request">
                   No
                 </button>
+              </form>
+            </td>
+            <td>
+              <form
+                action="/offices/<%= office._id %>?_method=DELETE"
+                method="POST"
+              >
+                <button class="btn">Delete</button>
               </form>
             </td>
           </tr>

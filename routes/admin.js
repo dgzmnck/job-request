@@ -17,6 +17,13 @@ router.get("/offices", async (req, res) => {
   res.render("offices", { offices });
 });
 
+router.get("/users", isLoggedIn, isAdmin, async (req, res) => {
+  const users = await User.find({})
+    .sort({ last: 1, first: 1 })
+    .populate("office");
+  res.render("users/index", { users });
+});
+
 router.get("/offices/new", (req, res) => {
   res.render("offices/new");
 });
@@ -26,22 +33,27 @@ router.post("/offices/new", async (req, res) => {
   res.redirect("/admin/offices");
 });
 
-router.post("/approve/:officeID/:userID", async (req, res) => {
-  const { officeID, userID } = req.params;
-  const office = await Office.findById(officeID);
-  const user = await User.findById(userID);
+router.post(
+  "/:officeID/:userID",
+  isLoggedIn,
+  isAdmin,
+  catchAsync(async (req, res) => {
+    const { officeID, userID } = req.params;
+    const office = await Office.findById(officeID);
+    const user = await User.findById(userID);
 
-  if (office.members.includes(user._id)) {
-    req.flash("error", "already a member");
-    return res.redirect("/offices/new");
-  }
-  user.is_member = true;
-  office.members.push(user._id);
-  await office.save();
-  await user.save();
-  req.flash("success", "new member approved");
-  res.redirect("/offices/new");
-});
+    if (office.members.includes(user._id)) {
+      req.flash("error", "already a member");
+      return res.redirect("/offices/new");
+    }
+    user.is_member = true;
+    office.members.push(user._id);
+    await office.save();
+    await user.save();
+    req.flash("success", "new member approved");
+    res.redirect("/admin/users");
+  })
+);
 
 router.get(
   "/:officeID/jobs",

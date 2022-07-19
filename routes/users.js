@@ -5,7 +5,7 @@ const Request = require("../models/request");
 const Office = require("../models/office");
 const passport = require("passport");
 const catchAsync = require("../utils/catchAsync"); //own middleware for catching errors
-const { isLoggedIn } = require("../middlewares");
+const { isLoggedIn, isPersonnel } = require("../middlewares");
 
 const { cloudinary } = require("../cloudinary");
 
@@ -99,40 +99,53 @@ router.get("/profile", isLoggedIn, async (req, res) => {
   const requests = await Request.find({ requester: req.user._id });
   const user = await User.findById(req.user._id).populate("office");
   console.log(requests);
-  res.render("users/profile", { user, requests, status: "all" });
+  res.render("users/profile", { user, requests });
 });
 
-router.get("/profile/requests/:status", isLoggedIn, async (req, res) => {
-  const { status } = req.params;
+router.get("/personnel", isLoggedIn, isPersonnel, async (req, res) => {
+  // const user = await User.findById(req.user._id);
+  // res.render("users/profile", { user });.
   const user = await User.findById(req.user._id).populate("office");
+  const requests = await Request.find({
+    for_office: user.office._id,
+    status: "pending",
+  });
 
-  if (status) {
-    if (status === "all") {
-      const requests = await Request.find({ requester: req.user._id }).populate(
-        {
-          path: "requester",
-          populate: {
-            path: "office",
-          },
-        }
-      );
-      console.log("loading", requests.requester);
-      return res.render("users/profile", { user, requests, status });
-    } else {
-      const requests = await Request.find({
-        requester: req.user._id,
-        status,
-      }).populate({
-        path: "requester",
-        populate: {
-          path: "office",
-        },
-      });
-      console.log("loading", requests.requester);
-      return res.render("users/profile", { user, requests, status });
-    }
-  }
+  console.log(requests);
+  res.render("users/personnel", { user, requests });
 });
+
+// router.get("/profile/requests/:status", isLoggedIn, async (req, res) => {
+//   const { status } = req.params;
+//   const user = await User.findById(req.user._id).populate("office");
+
+//   if (status) {
+//     if (status === "all") {
+//       const requests = await Request.find({ requester: req.user._id }).populate(
+//         {
+//           path: "requester",
+//           populate: {
+//             path: "office",
+//           },
+//         }
+//       );
+//       console.log("loading", requests.requester);
+//       return res.render("users/profile", { user, requests, status });
+//     } else {
+//       const requests = await Request.find({
+//         requester: req.user._id,
+//         status,
+//       }).populate({
+//         path: "requester",
+//         populate: {
+//           path: "office",
+//         },
+//       });
+//       console.log("loading", requests.requester);
+//       return res.render("users/profile", { user, requests, status });
+//     }
+//   }
+// });
 
 router.get("/logout", (req, res) => {
   req.logout(req.user, (err) => {

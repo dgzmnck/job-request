@@ -27,8 +27,17 @@
         <td>---</td>
         <% } %>
         <td>
-          <% if (user.is_member===true) { %> Already approved <% }else{ %>
-          Awaiting approval <% } %>
+          <% if (user.is_member===true) { %> Already approved <% }else{ %> <% if
+          (user.office && user) { %>
+
+          <form
+            action="/admin/<%= user.office._id %>/<%= user._id %>"
+            method="POST"
+          >
+            <button class="btn">Approve</button>
+          </form>
+
+          <% } %> <% } %>
         </td>
       </tr>
       <% } %>

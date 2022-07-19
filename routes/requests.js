@@ -21,6 +21,11 @@ router.get(
 router.get(
   "/today",
   catchAsync(async (req, res) => {
+    const all = await Request.find({})
+      .sort({ createdAt: 1 })
+      .populate("requester")
+      .populate("personnel");
+
     const pending = await Request.find({ status: "pending" })
       .sort({ createdAt: 1 })
       .populate("requester")
@@ -36,7 +41,7 @@ router.get(
       .populate("requester")
       .populate("personnel");
 
-    res.render("requests/today", { pending, accepted, completed });
+    res.render("requests/today", { all, pending, accepted, completed });
   })
 );
 

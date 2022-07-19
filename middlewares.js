@@ -5,11 +5,22 @@ const AppError = require("./utils/AppError"); // self made error handler
 
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
-    req.session.returnUrl = req.originalUrl.replace("/reviews", "");
+    req.session.returnUrl = req.originalUrl;
     req.flash("error", "You must be logged in to do this action.");
     return res.redirect("/login");
   }
   next();
+};
+
+module.exports.isCurrentUserAdmin = async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+  console.log(user, user.is_admin);
+
+  if (user.is_admin === false) {
+    return true;
+  }
+
+  return false;
 };
 
 module.exports.isMember = async (req, res, next) => {
@@ -24,13 +35,24 @@ module.exports.isMember = async (req, res, next) => {
   res.redirect("/profile");
 };
 
+module.exports.isPersonnel = async (req, res, next) => {
+  // const { officeID } = req.params;
+  // const office = await Office.findById(officeID);
+  const user = await User.findById(req.user._id).populate("office");
+
+  if (user.office.can_accept_request) {
+    return next();
+  }
+  req.flash("error", "Your office do not handle requests");
+  res.redirect("/profile");
+};
+
 module.exports.isAdmin = async (req, res, next) => {
   const user = await User.findById(req.user._id);
   console.log(user, user.is_admin);
 
   if (user.is_admin === false) {
-    req.flash("error", "Not authorized");
-    return res.redirect("/profile");
+    return next(new AppError(` Not authorized..`, 401));
   }
 
   return next();

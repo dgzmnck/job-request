@@ -40,6 +40,16 @@ router.patch(
   })
 );
 
+router.delete(
+  "/:officeId",
+  catchAsync(async (req, res) => {
+    const { officeId } = req.params;
+    await Office.findByIdAndDelete(officeId);
+    req.flash("success", "office deleted");
+    return res.redirect("/offices");
+  })
+);
+
 // router.get("/new", (req, res) => {
 //   res.render("offices/new");
 // });

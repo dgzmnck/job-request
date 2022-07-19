@@ -90,6 +90,36 @@ width: 100vw;
 height:100vh;
 
 }
+
+.bg {
+    position: absolute;
+    top:0;
+    width:100vw;
+    height:100vh;
+    left:0;
+    background-image:url('../img/courier.jpg');
+    background-repeat: no-repeat;
+background-position: center center;
+z-index:-1;
+}
+
+.bg:before {
+    position: absolute;
+    top:0;
+    width:100vw;
+    height:100vh;
+    left:0;
+    content:"";
+background-color: rgba(0,0,0,0.6);
+z-index:-1;
+}
+.login {
+    position: absolute;
+    right: 10vw;
+ top: 20vh;
+
+}
+
 .header {
     background-color: white;
     display: fixed;

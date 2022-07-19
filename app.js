@@ -12,6 +12,7 @@ const session = require("express-session"); // npm i express-session
 const methodOverride = require("method-override"); //METHOD OVERRIDE = npm i method-override
 const AppError = require("./utils/AppError"); // self made error handler
 const catchAsync = require("./utils/catchAsync"); //own middleware for catching errors
+// const { isCurrentUserAdmin } = require("./utils/Identifier"); //own middleware for catching errors
 const Joi = require("joi");
 const MongoStore = require("connect-mongo");
 const mongoSanitize = require("express-mongo-sanitize");
@@ -30,6 +31,7 @@ const Office = require("./models/office");
 
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+const { isAdmin } = require("./middlewares");
 
 //MONGO CONNECTION TO DATABASE
 mongoose
@@ -76,12 +78,14 @@ passport.use(new LocalStrategy(User.authenticate())); // passport using localstr
 passport.serializeUser(User.serializeUser()); // store user into the session
 passport.deserializeUser(User.deserializeUser()); // user out of the session
 
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   //middleware - runs every request
   res.locals.returnUrl = req.session.originalUrl;
   res.locals.currentUser = req.user;
+
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  console.log(res.locals.isCurrentUserAdmin);
   next();
 });
 

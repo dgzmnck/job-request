@@ -22,6 +22,27 @@ const officeSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Office = mongoose.model("Office", officeSchema);
+officeSchema.post("findOneAndDelete", async function (doc) {
+  if (doc) {
+    await User.updateMany(
+      { _id: { $in: doc.members } },
+      {
+        $set: {
+          office: null,
+          is_member: null,
+          is_personnel: null,
+          is_head: null,
+        },
+      },
+      function (err, val) {
+        if (err) {
+          return console.log(err);
+        } else {
+          return console.log(val);
+        }
+      }
+    );
+  }
+});
 
-module.exports = Office;
+module.exports = mongoose.model("Office", officeSchema);

@@ -9,9 +9,11 @@ MIS REQUEST</i>
     <button class="menu btn" id="menu"><i class="fa fa-bars"></i></button>
 
     <ul class="navlinks" id="navlinks">
-      <li class="navitem"><a href="/users">User</a></li>
-      <li class="navitem"><a href="/offices">Office</a></li>
-      <li class="navitem">
+      <% if (currentUser) {%>
+      <% if (currentUser.is_admin) { %>  <li class="navitem"><a href="/users">User</a></li> <% } %> 
+      <% if (currentUser.is_admin) { %>  <li class="navitem"><a href="/offices">Office</a></li> <%  } %> 
+      <% } %> 
+      <!-- <li class="navitem">
         <a href="/requests/today">Requests</a>
         <ul class="navitemdrop">
           <li><a href="/requests/new">New Request</a></li>
@@ -21,7 +23,7 @@ MIS REQUEST</i>
           <li><a href="/requests/status/completed">Completed</a></li>
           <li><a href="/requests/status/to-rate">To Rate</a></li>
         </ul>
-      </li>
+      </li> -->
       <!-- <li class="navitem">
         <a href="">Personnels</a>
         <ul class="navitemdrop">
@@ -32,23 +34,27 @@ MIS REQUEST</i>
           <li><a href="">Ernani</a></li>
         </ul>
       </li> -->
-    </ul>
+    </ul >
+
 
     <div class="navside">
+      <ul  class="navlinks"> 
       <% if(currentUser) { %>
-
-      <!-- <img src="" alt="" /> -->
-      <a class="anavlink" href="/profile">
-        <i class="fa-solid fa-user"></i> <%= currentUser.first %>
-      </a>
-
-      <a class="anavlink" href="/logout"
-        ><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</i></a
-      >
+           <li class="navitem"><a class="anavlink" href="/profile"> <i class="fa-solid fa-user"></i> <%= currentUser.first %></a>
+            <% if (currentUser.is_admin || currentUser.is_head || currentUser.is_personnel) { %>
+            <ul class="navitemdrop">      
+         <% if (currentUser.is_admin) { %>  <li><a href="/admin">As Admin</a></li> <% } %> 
+         <% if (currentUser.is_head) { %> <li><a href="/admin">As Office Head</a></li><% } %> 
+          <% if (currentUser.is_personnel) { %> <li><a href="/personnel">As Personnel</a></li><% } %> 
+        </ul>
+        <% } %> 
+        </li>
+      <li class="navitem"> <a class="anavlink" href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</i></a></li>
       <% } else { %>
-      <a class="abtn" href="/register">REGISTER</a>
-      <a class="abtn" href="/login">LOGIN</a>
+        <li class="navitem"> <a class="abtn" href="/register">REGISTER</a></li> 
+        <li class="navitem"> <a class="abtn" href="/login">LOGIN</a></li> 
       <% } %>
+    </ul>
     </div>
   </nav>
 </header>
